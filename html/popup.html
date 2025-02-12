@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Year Grid</title>
+		<script src="../js/popup.js" defer></script>
+		<style>
+			body {
+				margin-top: 100px;
+				width: 400px;
+				background: black;
+				color: white;
+				font-family: Arial, sans-serif;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+
+			.calendar {
+				display: grid;
+				grid-template-columns: 30px repeat(12, 1fr);
+				grid-gap: 2px;
+				align-items: center;
+			}
+
+			.month {
+				text-align: center;
+				font-size: 12px;
+				font-weight: bold;
+			}
+
+			.day {
+				text-align: right;
+				font-size: 12px;
+				padding-right: 5px;
+			}
+
+			.box {
+				width: 20px;
+				height: 20px;
+				border: 1px solid white;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="calendar">
+			<!-- Month Headers -->
+			<div></div>
+			<!-- Empty top-left cell -->
+			<div class="month">Jan</div>
+			<div class="month">Feb</div>
+			<div class="month">Mar</div>
+			<div class="month">Apr</div>
+			<div class="month">May</div>
+			<div class="month">Jun</div>
+			<div class="month">Jul</div>
+			<div class="month">Aug</div>
+			<div class="month">Sep</div>
+			<div class="month">Oct</div>
+			<div class="month">Nov</div>
+			<div class="month">Dec</div>
+
+			<!-- Days & Grid -->
+		</div>
+	</body>
+</html>

@@ -1,0 +1,18 @@
+!- Todo List
+    - Add Todo List support
+!- Make stats work
+    - Problem is year support
+    - Update when storage change
+    - Individual tasks
+    - Add date to the top
+!- Is Done?
+    - Create a container where DONE task is put, and allow user to undone it
+!- Make UI better
+    - Add customizations
+    - Designs
+- Add support for special tracker
+    - No Fap
+    - Website Blocker
+- Make components toggable
+    - Stats
+    - Todo List
