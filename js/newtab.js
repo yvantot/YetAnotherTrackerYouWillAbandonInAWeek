@@ -1,9 +1,9 @@
 const local = chrome.storage.local;
 const date = new DateUtil(new Date());
 let timers = [];
+let yearChanger = 0;
 
 chrome.storage.onChanged.addListener(async () => {
-	console.log("br");
 	const userData = await local.get(null);
 
 	timers = [];

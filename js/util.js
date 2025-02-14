@@ -160,6 +160,25 @@ function generateTasks(userData) {
 
 function initListeners() {
 	const addTask = document.getElementById("add-task");
+	const prevYear = document.getElementById("prev-year");
+	const nextYear = document.getElementById("next-year");
+	const statYear = document.querySelector(".stat-year");
+
+	prevYear.addEventListener("click", async () => {
+		const userData = await local.get(null);
+		yearChanger -= 1;
+		const newYear = date.currentYear + yearChanger;
+		statYear.textContent = newYear;
+		generateStats(userData, newYear);
+	});
+
+	nextYear.addEventListener("click", async () => {
+		const userData = await local.get(null);
+		yearChanger += 1;
+		const newYear = date.currentYear + yearChanger;
+		statYear.textContent = newYear;
+		generateStats(userData, newYear);
+	});
 
 	addTask.addEventListener("click", addNewTask);
 }
