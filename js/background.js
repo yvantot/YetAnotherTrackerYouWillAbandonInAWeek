@@ -9,6 +9,7 @@ const STORAGE_DEFAULT = {
 			createdAt: new Date() + "",
 			goal: null,
 			done: false,
+			type: "generic",
 		},
 	],
 };

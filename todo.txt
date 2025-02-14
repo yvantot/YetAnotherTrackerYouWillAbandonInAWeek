@@ -1,11 +1,11 @@
+!- Goal
+    - If goal input is 0 or empty, then set goal to null
 !- Todo List
     - Add Todo List support
-!- Make stats work
-    - Problem is year support
-    - Update when storage change
-    - Individual tasks
-    - Add date to the top
+!- Make stats work        
+    - Individual tasks    
 !- Is Done?
+    - Done should always be last
     - Create a container where DONE task is put, and allow user to undone it
 !- Make UI better
     - Add customizations

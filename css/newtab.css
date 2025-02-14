@@ -2,53 +2,38 @@
 	font-family: Montserrat;
 	src: url("./../assets/Montserrat.ttf") format("truetype");
 }
-
 *,
 *::before,
 *::after {
+	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
+	color: #242424;
 	font-size: 16px;
 	font-family: Montserrat, sans-serif;
 	line-height: 1.6;
 	outline: none;
 	border: none;
-	color: #242424;
 	font-weight: normal;
 	text-decoration: none;
 	font-style: normal;
 	background: none;
 }
-.horizontal-line {
-	border-top: 1px solid hsl(0, 0%, 80%);
-	margin-top: 0.5rem;
-}
 main {
-	padding: 1rem;
 	display: flex;
+	justify-content: space-around;
 	height: 100vh;
 	gap: 1rem;
 }
-@keyframes toolShow {
-	0% {
-		opacity: 0;
-		transform: translateX(30px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
 .tools {
-	background-color: white;
 	display: flex;
-	box-shadow: 0px 2px 7px hsla(0, 0%, 50%, 0.8);
-	padding: 10px;
+	background-color: white;
+	box-shadow: 0px 2px 3px hsla(0, 0%, 50%, 0.8);
+	padding: 8px;
 	border-radius: 10px;
-	position: absolute;
-	bottom: 1rem;
-	right: 1rem;
+	position: fixed;
+	bottom: 1.5rem;
+	right: 1.5rem;
 	z-index: 999;
 
 	&:hover {
@@ -63,19 +48,18 @@ main {
 	}
 
 	button {
-		cursor: pointer;
 		width: 0px;
 		height: 0px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: hsl(0, 0%, 90%);
 
 		svg {
-			height: 30px;
-			width: 30px;
+			height: 25px;
+			width: 25px;
 		}
 	}
+
 	button:last-child {
 		width: fit-content;
 		height: fit-content;
@@ -86,18 +70,79 @@ main {
 	#add-task {
 		background-color: hsl(135, 50%, 50%);
 	}
+
 	#settings {
 		background-color: hsl(0, 0%, 63%);
 	}
 }
+
 .stats-container {
-	width: 20vw;
+	background-color: hsl(0, 0%, 98%);
+	flex-basis: 20vw;
+	border-right: 1px solid hsl(0, 0%, 95%);
+	padding: 1rem;
+}
+
+.usertask-container {
+	flex-grow: 0;
+	flex-basis: 60vw;
+	overflow-y: auto;
+	flex-wrap: wrap;
+	padding-top: 1rem;
+	padding-bottom: 10rem;
+	gap: 1rem;
+	position: relative;
+}
+
+.todolist-container {
+	background-color: hsl(0, 0%, 98%);
+	flex-basis: 20vw;
+	border: 1px solid hsl(0, 0%, 95%);
+	padding: 1rem;
 }
 
 .userstats {
-	padding: 1rem;
-	border-radius: 1rem;
-	border: 1px solid hsl(0, 0%, 70%);
+	display: flex;
+	flex-direction: column;
+	.current-time {
+		font-weight: 500;
+		user-select: none;
+		font-size: 1.2rem;
+		letter-spacing: 1px;
+		text-align: center;
+		color: hsl(0, 0%, 50%);
+	}
+	.current-date {
+		user-select: none;
+		text-align: center;
+		font-size: 0.9rem;
+		letter-spacing: 1px;
+		color: hsl(0, 0%, 80%);
+	}
+
+	.stat-year-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		margin: 0.8rem 0;
+
+		.stat-year {
+			user-select: none;
+			font-size: 0.9rem;
+			color: hsl(0, 0%, 50%);
+		}
+
+		button {
+			background-color: hsl(0, 0%, 80%);
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 1.2rem;
+			height: 1.2rem;
+		}
+	}
 	.months {
 		user-select: none;
 		display: grid;
@@ -105,19 +150,21 @@ main {
 		grid-template-columns: repeat(13, 1fr);
 
 		.month {
-			font-size: 0.7rem;
+			color: hsl(0, 0%, 40%);
+			font-size: 0.6rem;
 		}
 	}
 	.days {
-		user-select: none;
+		padding: 0 5px;
 		display: grid;
 		justify-items: center;
 		align-items: center;
 		grid-template-rows: repeat(31, 1fr);
-		margin-right: 5px;
+		user-select: none;
 
 		.day {
-			font-size: 0.7rem;
+			color: hsl(0, 0%, 40%);
+			font-size: 0.6rem;
 		}
 	}
 	.statinfo {
@@ -131,57 +178,53 @@ main {
 		grid-template-rows: repeat(31, 1fr);
 	}
 	.daybox {
-		width: 90%;
-		height: 90%;
-		border-radius: 2px;
+		width: 85%;
+		height: 85%;
 		border: 1px solid hsl(0, 0%, 80%);
-		background-color: white;
+		border-radius: 2px;
 	}
 }
-.usertask-container {
-	overflow-y: auto;
-	flex-grow: 1;
-	flex-wrap: wrap;
-	gap: 1rem;
-	position: relative;
-}
+
 .usertask {
-	width: 100%;
-	margin-bottom: 10px;
+	margin: 0 1rem;
+	margin-bottom: 1rem;
 	height: fit-content;
 	padding: 1rem;
 	gap: 1rem;
-	border: 1px solid hsl(0, 0%, 70%);
+	box-shadow: 0px 5px 10px hsl(0, 0%, 85%);
+	border-top: 2px solid hsl(0, 0%, 90%);
 	border-radius: 1rem;
 	position: relative;
 
 	header {
 		.task-toolbar {
 			opacity: 0;
-			background-color: hsla(0, 0%, 50%, 0.3);
+			background-color: hsl(0, 0%, 90%);
 			display: flex;
 			position: absolute;
 			top: 1rem;
 			right: 1rem;
-			transition: opacity 0.4s ease;
-			border-radius: 10px;
+			transition: opacity 0.6s ease-out;
+			border-radius: 5px;
 
 			button {
 				padding: 8px 10px;
-				border-radius: 10px;
-				cursor: pointer;
+				border-radius: 5px;
 				display: flex;
 				justify-content: center;
 				align-items: center;
+
 				transition: background-color 0.3s ease;
 				svg {
-					transition: transform 0.3s ease;
+					width: 1.2rem;
+					height: 1.2rem;
+					transition: transform 0.6s ease;
 				}
 			}
 			button:hover {
-				background-color: hsl(204, 52%, 56%);
+				background-color: hsl(0, 0%, 70%);
 				svg {
-					transform: scale(1.15, 1.15);
+					transform: scale(1.2, 1.2);
 				}
 			}
 		}
@@ -190,44 +233,55 @@ main {
 		}
 
 		.task-info {
-			width: 60%;
+			max-width: 60%;
+			min-width: 1ch;
+			width: fit-content;
 			h3 {
 				user-select: none;
+				min-height: 1ch;
 				cursor: pointer;
-				font-size: 1.1rem;
+				font-size: 1.2rem;
 				font-weight: 500;
+				margin-bottom: 5px;
+
 				display: -webkit-box;
 				-webkit-line-clamp: 2;
 				line-clamp: 2;
-				margin-bottom: 10px;
 				-webkit-box-orient: vertical;
 				overflow: hidden;
 			}
 			span {
 				user-select: none;
+				min-height: 1ch;
+				color: hsl(0, 0%, 50%);
 				cursor: pointer;
 				font-size: 0.9rem;
+				margin-bottom: 5px;
+
 				display: -webkit-box;
 				-webkit-line-clamp: 2;
 				line-clamp: 2;
 				-webkit-box-orient: vertical;
 				overflow: hidden;
+			}
+			.task-createdAt {
+				cursor: default;
+				color: hsl(0, 0%, 80%);
 			}
 		}
 		.tick-ago {
 			margin-bottom: 5px;
 			user-select: none;
-			span {
+			.time-after {
 				user-select: none;
-				text-align: center;
-				color: hsl(0, 0%, 50%);
-				font-size: 0.95rem;
+				color: hsl(0, 0%, 70%);
+				font-size: 0.9rem;
 			}
 			.ticks-count {
 				user-select: none;
 				margin-right: 0.5rem;
-				color: hsl(145, 50%, 40%);
-				font-size: 2rem;
+				color: hsl(145, 60%, 40%);
+				font-size: 1.5rem;
 				font-weight: 800;
 			}
 		}
@@ -236,13 +290,12 @@ main {
 	.tick-container {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 2px;
+		gap: 10px 3px;
 		.tick {
 			width: 20px;
 			height: 20px;
-			border: 1px solid hsl(135, 50%, 35%);
 			border-radius: 3px;
-			background: hsl(135, 50%, 50%);
+			background: hsl(145, 70%, 40%);
 		}
 		.tick-divider {
 			width: 10px;
@@ -254,8 +307,8 @@ main {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			border-radius: 3px;
-			background: hsla(0, 100%, 50%, 0.5);
+			border-radius: 50%;
+			background: hsla(0, 100%, 40%, 0.5);
 			opacity: 0.2;
 			border: 2px solid hsla(0, 100%, 10%, 0.5);
 			svg {
@@ -278,9 +331,9 @@ main {
 			justify-content: center;
 			align-items: center;
 			border-radius: 3px;
-			background: hsla(0, 0%, 50%, 0.5);
+			background: hsla(0, 0%, 30%, 0.5);
 			opacity: 0.2;
-			border: 2px solid black;
+			border: 2px solid hsla(0, 100%, 10%, 0.5);
 			svg {
 				cursor: pointer;
 				transition: opacity 0.3s ease;
@@ -296,10 +349,43 @@ main {
 		}
 	}
 }
-.todolist-container {
-	height: 100%;
-	width: 20vw;
-	border: 1px solid hsl(0, 0%, 70%);
-	border-radius: 1rem;
-	padding: 1rem;
+.horizontal-line {
+	border-top: 1px solid hsl(0, 0%, 90%);
+	margin-top: 0.5rem;
+}
+@keyframes toolShow {
+	0% {
+		opacity: 0;
+		transform: translateX(30px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+button {
+	cursor: pointer;
+}
+.editing-info {
+	transform: scale(0.9, 0.9);
+	color: hsl(0, 0%, 70%);
+	min-width: 5ch;
+	width: fit-content;
+	border-bottom: 2px solid hsl(0, 0%, 80%);
+}
+.task-done {
+	background-color: hsl(0, 0%, 90%);
+	opacity: 0.7;
+	box-shadow: none;
+	user-select: none;
+}
+.goal-edit {
+	width: 1ch;
+	user-select: none;
+	cursor: text;
+	margin-right: 0.5rem;
+	font-size: 1.5rem;
+	font-weight: 800;
+	color: hsl(0, 0%, 70%) !important;
+	border-bottom: 2px solid hsl(0, 0%, 80%);
 }
