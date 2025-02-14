@@ -116,7 +116,6 @@ main {
 		user-select: none;
 		text-align: center;
 		font-size: 0.9rem;
-		letter-spacing: 1px;
 		color: hsl(0, 0%, 80%);
 	}
 
@@ -128,6 +127,8 @@ main {
 		margin: 0.8rem 0;
 
 		.stat-year {
+			min-width: 5ch;
+			text-align: center;
 			user-select: none;
 			font-size: 0.9rem;
 			color: hsl(0, 0%, 50%);
@@ -388,4 +389,39 @@ button {
 	font-weight: 800;
 	color: hsl(0, 0%, 70%) !important;
 	border-bottom: 2px solid hsl(0, 0%, 80%);
+}
+
+[data-tooltip] {
+	position: relative;
+}
+
+[data-tooltip]:after {
+	content: attr(data-tooltip);
+	position: absolute;
+	font-size: 0.75rem;
+	left: 0;
+	z-index: 999;
+	bottom: -100%;
+	padding: 6px 10px;
+	border-radius: 5px;
+	color: white;
+	background-color: hsl(238, 25%, 49%);
+	transform: scale(0.8, 0.8);
+	width: max-content;
+	opacity: 0;
+	display: none;
+}
+@keyframes showTooltip {
+	0% {
+		transform: scale(0.8, 0.8);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1, 1);
+		opacity: 1;
+	}
+}
+[data-tooltip]:hover:after {
+	animation: showTooltip 0.6s forwards 0.3s;
+	display: block;
 }

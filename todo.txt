@@ -1,5 +1,5 @@
-!- Goal
-    - If goal input is 0 or empty, then set goal to null
+!- Popup support
+    - Allows minified YATYA to work on popup
 !- Todo List
     - Add Todo List support
 !- Make stats work        

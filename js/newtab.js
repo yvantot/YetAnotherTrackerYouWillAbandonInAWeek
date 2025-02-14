@@ -23,7 +23,7 @@ async function init() {
 function tickProgress(goal, ticks) {
 	let progress = "";
 	for (let i = 0; i < ticks.length; i++) {
-		progress += `<div class="tick" title="${dateFormat(new Date(ticks[i]))}"></div>`;
+		progress += `<div class="tick" data-tooltip="${dateFormat(new Date(ticks[i]))}"></div>`;
 		if (goal) {
 			if ((i + 1) % goal === 0) {
 				progress += `<div class="tick-divider"></div>`;

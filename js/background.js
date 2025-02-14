@@ -3,13 +3,13 @@ const STORAGE_DEFAULT = {
 	tasks: [
 		{
 			id: 0,
-			title: "Double click to edit...",
-			description: "...",
-			ticks: [],
-			createdAt: new Date() + "",
-			goal: null,
+			title: "Double click to change...",
+			description: "Hover to the right upperside for settings",
+			createdAt: String(new Date()),
+			goal: 0,
 			done: false,
 			type: "generic",
+			ticks: [],
 		},
 	],
 };

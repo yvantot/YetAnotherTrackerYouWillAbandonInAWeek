@@ -13,9 +13,9 @@ class DateUtil {
 		return days;
 	}
 	// For Month representation
-	getCurrentMonth(date = this.date, isAbbrev = false, isNum = false) {
-		const currentMonth = date.getMonth() + 1;
-		switch (currentMonth) {
+	getMonth(date, isAbbrev = false, isNum = false) {
+		if (date < 1 || date > 12) return;
+		switch (date) {
 			case 1:
 				if (isAbbrev) return "Jan";
 				if (isNum) return 1;
