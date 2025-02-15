@@ -2,6 +2,10 @@
 	font-family: Montserrat;
 	src: url("./../assets/Montserrat.ttf") format("truetype");
 }
+:root {
+	color-scheme: light dark;
+	--tick-color: light-dark(hsl(145, 60%, 40%), hsl(145, 55%, 50%));
+}
 *,
 *::before,
 *::after {
@@ -20,6 +24,7 @@
 	background: none;
 }
 main {
+	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 10%));
 	display: flex;
 	justify-content: space-around;
 	height: 100vh;
@@ -27,8 +32,8 @@ main {
 }
 .tools {
 	display: flex;
-	background-color: white;
-	box-shadow: 0px 2px 3px hsla(0, 0%, 50%, 0.8);
+	background-color: light-dark(white, hsl(0, 0%, 30%));
+	box-shadow: 0px 2px 3px light-dark(hsla(0, 0%, 50%, 0.8), hsl(0, 0%, 0%));
 	padding: 8px;
 	border-radius: 10px;
 	position: fixed;
@@ -77,10 +82,11 @@ main {
 }
 
 .stats-container {
-	background-color: hsl(0, 0%, 98%);
-	flex-basis: 20vw;
-	border-right: 1px solid hsl(0, 0%, 95%);
-	padding: 1rem;
+	background-color: hsl(0, 0%, 85%);
+	flex-basis: 16vw;
+	border-top-right-radius: 2rem;
+	border-bottom-right-radius: 2rem;
+	overflow: hidden;
 }
 
 .usertask-container {
@@ -95,53 +101,67 @@ main {
 }
 
 .todolist-container {
-	background-color: hsl(0, 0%, 98%);
+	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 5%));
 	flex-basis: 20vw;
-	border: 1px solid hsl(0, 0%, 95%);
 	padding: 1rem;
 }
-
-.userstats {
-	display: flex;
-	flex-direction: column;
+.stat-header {
+	height: 100%;
+	padding: 1rem;
+	background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 20%));
 	.current-time {
 		font-weight: 500;
 		user-select: none;
 		font-size: 1.2rem;
 		letter-spacing: 1px;
 		text-align: center;
-		color: hsl(0, 0%, 50%);
+		color: light-dark(hsla(0, 0%, 0%, 0.5), hsla(0, 0%, 100%, 0.5));
 	}
 	.current-date {
 		user-select: none;
 		text-align: center;
-		font-size: 0.9rem;
-		color: hsl(0, 0%, 80%);
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: light-dark(hsla(0, 0%, 0%, 0.2), hsla(0, 0%, 100%, 0.2));
 	}
+}
 
+.userstats {
+	display: flex;
+	flex-direction: column;
+	background-color: light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 15%));
+	padding: 1rem;
 	.stat-year-container {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: 1rem;
-		margin: 0.8rem 0;
+		margin-bottom: 0.5rem;
 
 		.stat-year {
 			min-width: 5ch;
 			text-align: center;
 			user-select: none;
 			font-size: 0.9rem;
-			color: hsl(0, 0%, 50%);
+			font-weight: 500;
+			color: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 80%));
 		}
 
 		button {
-			background-color: hsl(0, 0%, 80%);
-			border-radius: 50%;
+			background-color: light-dark(hsl(0, 0%, 70%), hsl(0, 0%, 50%));
+			border-radius: 5px;
+			padding: 2px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			width: 1.2rem;
 			height: 1.2rem;
+			transition: opacity 0.6s ease, transform 0.6s ease;
+			opacity: 0.5;
+		}
+		button:hover {
+			opacity: 1;
+			transform: scale(1.2, 1.2);
 		}
 	}
 	.months {
@@ -151,7 +171,8 @@ main {
 		grid-template-columns: repeat(13, 1fr);
 
 		.month {
-			color: hsl(0, 0%, 40%);
+			font-weight: bold;
+			color: hsl(0, 0%, 50%);
 			font-size: 0.6rem;
 		}
 	}
@@ -164,7 +185,8 @@ main {
 		user-select: none;
 
 		.day {
-			color: hsl(0, 0%, 40%);
+			font-weight: bold;
+			color: hsl(0, 0%, 50%);
 			font-size: 0.6rem;
 		}
 	}
@@ -181,26 +203,28 @@ main {
 	.daybox {
 		width: 85%;
 		height: 85%;
-		border: 1px solid hsl(0, 0%, 80%);
+		background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 30%));
 		border-radius: 2px;
 	}
 }
 
 .usertask {
+	overflow: hidden;
 	margin: 0 1rem;
 	margin-bottom: 1rem;
 	height: fit-content;
-	padding: 1rem;
+	padding: 1rem 1.5rem;
 	gap: 1rem;
-	box-shadow: 0px 5px 10px hsl(0, 0%, 85%);
-	border-top: 2px solid hsl(0, 0%, 90%);
+	box-shadow: 0px 5px 10px light-dark(hsl(0, 0%, 85%), hsl(0, 0%, 5%));
+	border-top: 2px solid light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 50%));
+	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 20%));
 	border-radius: 1rem;
 	position: relative;
 
 	header {
 		.task-toolbar {
 			opacity: 0;
-			background-color: hsl(0, 0%, 90%);
+			background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 40%));
 			display: flex;
 			position: absolute;
 			top: 1rem;
@@ -223,7 +247,7 @@ main {
 				}
 			}
 			button:hover {
-				background-color: hsl(0, 0%, 70%);
+				background-color: light-dark(hsl(0, 0%, 70%), hsl(0, 0%, 60%));
 				svg {
 					transform: scale(1.2, 1.2);
 				}
@@ -244,7 +268,7 @@ main {
 				font-size: 1.2rem;
 				font-weight: 500;
 				margin-bottom: 5px;
-
+				color: light-dark(hsl(0, 0%, 20%), hsl(0, 0%, 90%));
 				display: -webkit-box;
 				-webkit-line-clamp: 2;
 				line-clamp: 2;
@@ -254,7 +278,7 @@ main {
 			span {
 				user-select: none;
 				min-height: 1ch;
-				color: hsl(0, 0%, 50%);
+				color: light-dark(hsl(0, 0%, 50%), hsl(0, 0%, 80%));
 				cursor: pointer;
 				font-size: 0.9rem;
 				margin-bottom: 5px;
@@ -267,7 +291,7 @@ main {
 			}
 			.task-createdAt {
 				cursor: default;
-				color: hsl(0, 0%, 80%);
+				color: light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 50%));
 			}
 		}
 		.tick-ago {
@@ -275,13 +299,13 @@ main {
 			user-select: none;
 			.time-after {
 				user-select: none;
-				color: hsl(0, 0%, 70%);
+				color: light-dark(hsl(0, 0%, 70%), hsl(0, 0%, 60%));
 				font-size: 0.9rem;
 			}
 			.ticks-count {
 				user-select: none;
 				margin-right: 0.5rem;
-				color: hsl(145, 60%, 40%);
+				color: var(--tick-color);
 				font-size: 1.5rem;
 				font-weight: 800;
 			}
@@ -296,7 +320,7 @@ main {
 			width: 20px;
 			height: 20px;
 			border-radius: 3px;
-			background: hsl(145, 70%, 40%);
+			background: var(--tick-color);
 		}
 		.tick-divider {
 			width: 10px;
@@ -309,9 +333,9 @@ main {
 			justify-content: center;
 			align-items: center;
 			border-radius: 50%;
-			background: hsla(0, 100%, 40%, 0.5);
-			opacity: 0.2;
-			border: 2px solid hsla(0, 100%, 10%, 0.5);
+			background: light-dark(hsla(0, 100%, 40%, 0.3), hsla(0, 80%, 70%, 0.4));
+			transform: scale(0.6, 0.6);
+			transition: transform 0.6s ease;
 			svg {
 				cursor: pointer;
 				transition: opacity 0.3s ease;
@@ -319,6 +343,8 @@ main {
 			}
 		}
 		.tick-delete:hover {
+			background: light-dark(hsla(0, 100%, 40%, 0.4), hsla(0, 80%, 70%, 0.8));
+			transform: scale(1, 1);
 			border: none;
 			opacity: 1;
 			svg {
@@ -332,9 +358,9 @@ main {
 			justify-content: center;
 			align-items: center;
 			border-radius: 3px;
-			background: hsla(0, 0%, 30%, 0.5);
-			opacity: 0.2;
-			border: 2px solid hsla(0, 100%, 10%, 0.5);
+			transform: scale(0.6, 0.6);
+			transition: transform 0.6s ease;
+			background: light-dark(hsla(0, 0%, 50%, 0.3), hsla(0, 0%, 70%, 0.3));
 			svg {
 				cursor: pointer;
 				transition: opacity 0.3s ease;
@@ -342,6 +368,8 @@ main {
 			}
 		}
 		.tick-add:hover {
+			background: light-dark(hsla(0, 0%, 50%, 0.5), hsla(0, 0%, 70%, 0.5));
+			transform: scale(1, 1);
 			border: none;
 			opacity: 1;
 			svg {
@@ -351,7 +379,7 @@ main {
 	}
 }
 .horizontal-line {
-	border-top: 1px solid hsl(0, 0%, 90%);
+	border-top: 1px solid light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 30%));
 	margin-top: 0.5rem;
 }
 @keyframes toolShow {
@@ -375,8 +403,52 @@ button {
 	border-bottom: 2px solid hsl(0, 0%, 80%);
 }
 .task-done {
-	background-color: hsl(0, 0%, 90%);
-	opacity: 0.7;
+	& {
+		margin: 0.3rem 0.3rem;
+		display: inline-flex;
+		max-width: 50%;
+		width: fit-content;
+	}
+	* {
+		color: hsl(0, 0%, 50%) !important;
+		font-size: 0.7rem !important;
+		font-weight: normal !important;
+	}
+	.horizontal-line {
+		display: none;
+	}
+	.task-toolbar {
+		top: 0.3rem !important;
+		right: 0.3rem !important;
+		transform: scale(0.8, 0.8);
+	}
+	.ticks-count {
+		font-weight: bold !important;
+	}
+	.task-info {
+		span {
+			display: none !important;
+		}
+	}
+	.tick-container {
+		display: none;
+	}
+	button {
+		display: none !important;
+		opacity: 0;
+	}
+	button:first-child {
+		display: flex !important;
+		opacity: 1;
+	}
+	button:last-child {
+		display: flex !important;
+		opacity: 1;
+	}
+
+	background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 5%));
+	border: none;
+	opacity: 0.6;
 	box-shadow: none;
 	user-select: none;
 }
@@ -411,6 +483,11 @@ button {
 	opacity: 0;
 	display: none;
 }
+[data-tooltip]:hover:after {
+	animation: showTooltip 0.6s forwards 0.3s;
+	display: block;
+}
+
 @keyframes showTooltip {
 	0% {
 		transform: scale(0.8, 0.8);
@@ -420,8 +497,4 @@ button {
 		transform: scale(1, 1);
 		opacity: 1;
 	}
-}
-[data-tooltip]:hover:after {
-	animation: showTooltip 0.6s forwards 0.3s;
-	display: block;
 }

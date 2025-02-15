@@ -1,3 +1,5 @@
+!- Operation confirmation
+    - Add confirmation to sensitive operation such as delete
 !- Popup support
     - Allows minified YATYA to work on popup
 !- Todo List

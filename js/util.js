@@ -38,7 +38,7 @@ function taskToolbar(hasGoal) {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Zm300-440Zm86 160h134v-240H510l-16-80H280v240h290l16 80Z"/></svg>
             </button>`;
 	return ` <div class="task-toolbar">
-            <button class="task-done" data-tooltip="Finish">
+            <button class="done-task" data-tooltip="Finish">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
             </button>       
 			${elGoal}            
@@ -57,20 +57,25 @@ function taskToolbar(hasGoal) {
         </div>`;
 }
 
+function getMaxNumber(arr) {
+	if (arr.length === 0) return 0;
+
+	let max = arr[0];
+	for (let i = 1; i < arr.length; i++) {
+		if (arr[i] > max) max = arr[i];
+	}
+	return max;
+}
+
 async function addNewTask() {
 	const { tasks } = await local.get("tasks");
 
 	if (tasks) {
-		let latestID = null;
-		if (tasks.length > 0) {
-			latestID = tasks[tasks.length - 1].id + 1;
-		} else {
-			latestID = 0;
-		}
-
+		let latestID = getMaxNumber(tasks.map((task) => task.id));
+		if (tasks.length !== 0) latestID += 1;
 		const defaultTask = {
 			id: latestID,
-			title: "Double click to change...",
+			title: "Double click this to change...",
 			description: "Hover to the right upperside for settings",
 			createdAt: String(new Date()),
 			goal: 0,
@@ -112,7 +117,7 @@ function generateStats(userData, year) {
 	});
 
 	const months = document.querySelectorAll(".datamonth");
-	const daysOfMonths = date.getDaysOfMonths();
+	const daysOfMonths = getDaysOfMonths(year);
 	const currentMonth = date.currentMonth;
 	const currentDay = date.currentDay;
 
@@ -130,13 +135,14 @@ function generateStats(userData, year) {
 			if (year === date.currentYear) {
 				if (index <= currentMonth) {
 					if (index < currentMonth || (index === currentMonth && i < currentDay)) {
-						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 75%); border: none;");
+						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 60%); border: none;");
 					} else if (index === currentMonth && i === currentDay) {
-						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 50%); border: none;");
+						tickbox.setAttribute("style", "background-color: hsl(59, 50%, 50.20%); border: none;");
+						tickbox.setAttribute("data-tooltip", `Today is ${date.getMonth(index + 1, true)} ${i}th`);
 					}
 				}
 			} else if (year < date.currentYear) {
-				tickbox.setAttribute("style", "background-color: hsl(0, 0%, 75%); border: none;");
+				tickbox.setAttribute("style", "background-color: hsl(0, 0%, 60%); border: none;");
 			}
 
 			if (set.has(i)) {
@@ -146,8 +152,8 @@ function generateStats(userData, year) {
 						count++;
 					}
 				}
-				tickbox.setAttribute("data-tooltip", `I did ${count} thing${count > 1 ? "s" : ""} on ${date.getMonth(index + 1, true)} ${i}th`);
-				tickbox.setAttribute("style", "background-color: hsl(135, 50%, 50%); border: none;");
+				tickbox.setAttribute("data-tooltip", `I did ${count} task${count > 1 ? "s" : ""} on ${date.getMonth(index + 1, true)} ${i}th`);
+				tickbox.setAttribute("style", "background-color: hsl(150, 100.00%, 40.00%); border: none;");
 			}
 
 			tickbox.classList.add("daybox");
@@ -160,10 +166,59 @@ function generateTasks(userData) {
 	document.querySelector(".usertasks").innerHTML = "";
 	const { tasks } = userData;
 	if (tasks) {
+		const doneTask = [];
 		tasks.forEach((task) => {
+			if (!task.done) {
+				createTask(task);
+			} else {
+				doneTask.push(task);
+			}
+		});
+		doneTask.forEach((task) => {
 			createTask(task);
 		});
 	}
+}
+
+function createTask(task) {
+	const { id, ticks, title, description, createdAt, goal, done } = task;
+	const parent = document.querySelector(".usertasks");
+	const header = document.createElement("header");
+	const main = document.createElement("div");
+	const container = document.createElement("div");
+
+	main.setAttribute("class", "tick-container");
+	container.setAttribute("class", "usertask");
+
+	header.innerHTML = `       
+	   ${taskHeader(title, description, createdAt, goal, ticks)}
+	   ${taskToolbar(goal)}
+    `;
+
+	main.innerHTML = `               
+        <div class="tick-delete" ${ticks.length === 0 ? "style='display:none;'" : ""}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M200-440v-80h560v80H200Z"/></svg>
+        </div>
+        ${tickProgress(goal, ticks)}
+        <div class="tick-add">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
+        </div>
+    `;
+
+	if (done) {
+		container.classList.toggle("task-done");
+	}
+
+	// Add Listeners
+	taskListeners(header, main, id);
+
+	// For updating task timers
+	const timer = header.querySelector(".time-after");
+	timers.push(timer);
+
+	container.appendChild(header);
+	container.appendChild(main);
+	parent.appendChild(container);
 }
 
 function initListeners() {
@@ -174,6 +229,7 @@ function initListeners() {
 
 	prevYear.addEventListener("click", async () => {
 		const userData = await local.get(null);
+		if (yearChanger < -9) return;
 		yearChanger -= 1;
 		const newYear = date.currentYear + yearChanger;
 		statYear.textContent = newYear;
@@ -181,6 +237,7 @@ function initListeners() {
 	});
 
 	nextYear.addEventListener("click", async () => {
+		if (yearChanger > 0) return;
 		const userData = await local.get(null);
 		yearChanger += 1;
 		const newYear = date.currentYear + yearChanger;
@@ -249,7 +306,7 @@ function taskHeader(title, description, createdAt, goal, ticks) {
 function taskListeners(header, main, id) {
 	const taskTitle = header.querySelector("h3");
 	const taskDescription = header.querySelector(".task-info span");
-	const taskDone = header.querySelector(".task-done");
+	const taskDone = header.querySelector(".done-task");
 	const taskDelete = header.querySelector(".delete-task");
 	const taskGoal = header.querySelector(".goal-task");
 	const taskUp = header.querySelector(".up-task");
@@ -283,13 +340,27 @@ function taskListeners(header, main, id) {
 
 	taskUp.addEventListener("click", () => {
 		getSetTask(({ tasks, index }) => {
-			if (index > 0) [tasks[index], tasks[index - 1]] = [tasks[index - 1], tasks[index]];
+			if (index > 0) {
+				for (let i = index - 1; i >= 0; i--) {
+					if (!tasks[i].done) {
+						[tasks[index], tasks[i]] = [tasks[i], tasks[index]];
+						return;
+					}
+				}
+			}
 		}, id);
 	});
 
 	taskDown.addEventListener("click", () => {
 		getSetTask(({ tasks, index }) => {
-			if (index < tasks.length - 1) [tasks[index], tasks[index + 1]] = [tasks[index + 1], tasks[index]];
+			if (index < tasks.length - 1) {
+				for (let i = index + 1; i < tasks.length; i++) {
+					if (!tasks[i].done) {
+						[tasks[index], tasks[i]] = [tasks[i], tasks[index]];
+						return;
+					}
+				}
+			}
 		}, id);
 	});
 
@@ -428,4 +499,23 @@ function taskListeners(header, main, id) {
 
 	infoListener(taskTitle, id);
 	infoListener(taskDescription, id);
+}
+function getDaysOfMonths(year) {
+	const days = [];
+	for (let i = 1; i <= 12; i++) {
+		days.push(new Date(year, i, 0).getDate());
+	}
+	return days;
+}
+function tickProgress(goal, ticks) {
+	let progress = "";
+	for (let i = 0; i < ticks.length; i++) {
+		progress += `<div class="tick" data-tooltip="${dateFormat(new Date(ticks[i]))}"></div>`;
+		if (goal) {
+			if ((i + 1) % goal === 0) {
+				progress += `<div class="tick-divider"></div>`;
+			}
+		}
+	}
+	return progress;
 }
