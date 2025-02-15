@@ -6,9 +6,6 @@
     - Add Todo List support
 !- Make stats work        
     - Individual tasks    
-!- Is Done?
-    - Done should always be last
-    - Create a container where DONE task is put, and allow user to undone it
 !- Make UI better
     - Add customizations
     - Designs

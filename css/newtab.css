@@ -82,7 +82,6 @@ main {
 }
 
 .stats-container {
-	background-color: hsl(0, 0%, 85%);
 	flex-basis: 16vw;
 	border-top-right-radius: 2rem;
 	border-bottom-right-radius: 2rem;
@@ -169,7 +168,6 @@ main {
 		display: grid;
 		justify-items: center;
 		grid-template-columns: repeat(13, 1fr);
-
 		.month {
 			font-weight: bold;
 			color: hsl(0, 0%, 50%);
@@ -177,7 +175,6 @@ main {
 		}
 	}
 	.days {
-		padding: 0 5px;
 		display: grid;
 		justify-items: center;
 		align-items: center;
@@ -335,7 +332,7 @@ main {
 			border-radius: 50%;
 			background: light-dark(hsla(0, 100%, 40%, 0.3), hsla(0, 80%, 70%, 0.4));
 			transform: scale(0.6, 0.6);
-			transition: transform 0.6s ease;
+			transition: transform 0.3s ease;
 			svg {
 				cursor: pointer;
 				transition: opacity 0.3s ease;
@@ -359,7 +356,7 @@ main {
 			align-items: center;
 			border-radius: 3px;
 			transform: scale(0.6, 0.6);
-			transition: transform 0.6s ease;
+			transition: transform 0.3s ease;
 			background: light-dark(hsla(0, 0%, 50%, 0.3), hsla(0, 0%, 70%, 0.3));
 			svg {
 				cursor: pointer;

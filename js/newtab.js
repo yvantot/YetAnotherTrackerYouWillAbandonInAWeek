@@ -14,7 +14,6 @@ chrome.storage.onChanged.addListener(async () => {
 
 async function init() {
 	const userData = await local.get(null);
-
 	generateTasks(userData);
 	generateStats(userData, date.currentYear);
 

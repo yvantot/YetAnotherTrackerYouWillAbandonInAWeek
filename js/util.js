@@ -57,6 +57,17 @@ function taskToolbar(hasGoal) {
         </div>`;
 }
 
+function getMinNumber(arr) {
+	// Handle Set & Array
+	if (arr.length === 0) return 0;
+
+	let min = arr[0];
+	for (let i = 1; i < arr.length; i++) {
+		if (arr[i] < min) min = arr[i];
+	}
+	return min;
+}
+
 function getMaxNumber(arr) {
 	if (arr.length === 0) return 0;
 
@@ -135,16 +146,15 @@ function generateStats(userData, year) {
 			if (year === date.currentYear) {
 				if (index <= currentMonth) {
 					if (index < currentMonth || (index === currentMonth && i < currentDay)) {
-						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 60%); border: none;");
+						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 40%); border: none;");
 					} else if (index === currentMonth && i === currentDay) {
 						tickbox.setAttribute("style", "background-color: hsl(59, 50%, 50.20%); border: none;");
 						tickbox.setAttribute("data-tooltip", `Today is ${date.getMonth(index + 1, true)} ${i}th`);
 					}
 				}
 			} else if (year < date.currentYear) {
-				tickbox.setAttribute("style", "background-color: hsl(0, 0%, 60%); border: none;");
+				tickbox.setAttribute("style", "background-color: hsl(0, 0%, 40%); border: none;");
 			}
-
 			if (set.has(i)) {
 				let count = 0;
 				for (let n = 0; n < ticksPerMonth[index].length; n++) {
@@ -152,8 +162,19 @@ function generateStats(userData, year) {
 						count++;
 					}
 				}
+				if (count === 1) {
+					tickbox.setAttribute("style", "background-color: hsl(160, 60%, 25%); border: 2px solid hsl(160, 40%, 35%);");
+				} else if (count >= 2 && count <= 3) {
+					tickbox.setAttribute("style", "background-color: hsl(150, 30%, 40%); border: 2px solid hsl(150, 40%, 50%);");
+				} else if (count >= 4 && count <= 6) {
+					tickbox.setAttribute("style", "background-color: hsl(140, 45%, 45%); border: 2px solid hsl(140, 45%, 55%);");
+				} else if (count >= 7 && count <= 9) {
+					tickbox.setAttribute("style", "background-color: hsl(130, 60%, 65%); border: 2px solid hsl(130, 60%, 75%);");
+				} else if (count >= 10) {
+					tickbox.setAttribute("style", "background-color: hsl(100, 100%, 78%); border: 2px solid hsl(100, 100%, 88%);");
+				}
+
 				tickbox.setAttribute("data-tooltip", `I did ${count} task${count > 1 ? "s" : ""} on ${date.getMonth(index + 1, true)} ${i}th`);
-				tickbox.setAttribute("style", "background-color: hsl(150, 100.00%, 40.00%); border: none;");
 			}
 
 			tickbox.classList.add("daybox");
@@ -221,23 +242,25 @@ function createTask(task) {
 	parent.appendChild(container);
 }
 
-function initListeners() {
+async function initListeners() {
 	const addTask = document.getElementById("add-task");
 	const prevYear = document.getElementById("prev-year");
 	const nextYear = document.getElementById("next-year");
 	const statYear = document.querySelector(".stat-year");
+	const minYear = await getMinYear();
 
 	prevYear.addEventListener("click", async () => {
 		const userData = await local.get(null);
-		if (yearChanger < -9) return;
+		if (date.currentYear + yearChanger <= minYear) return;
 		yearChanger -= 1;
 		const newYear = date.currentYear + yearChanger;
+
 		statYear.textContent = newYear;
 		generateStats(userData, newYear);
 	});
 
 	nextYear.addEventListener("click", async () => {
-		if (yearChanger > 0) return;
+		if (yearChanger >= 0) return;
 		const userData = await local.get(null);
 		yearChanger += 1;
 		const newYear = date.currentYear + yearChanger;
@@ -518,4 +541,12 @@ function tickProgress(goal, ticks) {
 		}
 	}
 	return progress;
+}
+async function getMinYear() {
+	const { tasks } = await local.get("tasks");
+	if (tasks) {
+		const ticks = tasks.map((task) => task.ticks).flat();
+		const years = new Set(ticks.map((tick) => new Date(tick).getFullYear()));
+		return getMinNumber(Array.from(years));
+	}
 }
