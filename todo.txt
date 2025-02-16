@@ -1,17 +1,14 @@
-!- Operation confirmation
+!!- Operation confirmation
     - Add confirmation to sensitive operation such as delete
-!- Popup support
-    - Allows minified YATYA to work on popup
-!- Todo List
-    - Add Todo List support
-!- Make stats work        
-    - Individual tasks    
+!!- Popup support
+    - Allow toggle stats
+!!- Make stats work
+    - Individual tasks
 !- Make UI better
-    - Add customizations
-    - Designs
-- Add support for special tracker
-    - No Fap
-    - Website Blocker
-- Make components toggable
+    - Add customizations ???
+    - Fix lightmode, shit is a hot garbage
+!- Make components toggable
     - Stats
     - Todo List
+??- Todo List
+    - Add Todo List support

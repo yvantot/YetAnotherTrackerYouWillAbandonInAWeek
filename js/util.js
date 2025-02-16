@@ -1,3 +1,63 @@
+function insertPopupCSS() {
+	const style = document.createElement("style");
+	document.head.appendChild(style);
+
+	style.innerHTML = `
+body {
+	width: 500px;
+}
+.links {
+	justify-content: space-around;
+	gap: 0;
+	a {
+		display: initial !important;
+	}
+}
+main {
+	display: block;	
+	height: 500px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 1.5rem 0;
+}
+.usertask-container {
+	display: flex;
+	justify-content: center;
+	overflow-x: hidden;
+	padding: 0 1rem;
+	margin: 0;
+}
+.usertask {
+	width: 85vw;
+	header {
+		.task-info {
+			max-width: 100%;
+			.task-createdAt {
+				display: none;
+			}
+			h3 {
+				font-size: 0.8rem;
+			}
+			span {
+				font-size: 0.8rem;
+			}
+		}
+	}
+}
+
+.tick,
+.tick-divider {
+	display: none;
+}
+.todolist-container {
+	display: none;
+}
+.stats-container {
+	display: none;
+}
+`;
+}
+
 function dateFormat(date) {
 	const year = date.getFullYear();
 	const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -146,14 +206,14 @@ function generateStats(userData, year) {
 			if (year === date.currentYear) {
 				if (index <= currentMonth) {
 					if (index < currentMonth || (index === currentMonth && i < currentDay)) {
-						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 40%); border: none;");
+						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 33%); border: none;");
 					} else if (index === currentMonth && i === currentDay) {
 						tickbox.setAttribute("style", "background-color: hsl(59, 50%, 50.20%); border: none;");
 						tickbox.setAttribute("data-tooltip", `Today is ${date.getMonth(index + 1, true)} ${i}th`);
 					}
 				}
 			} else if (year < date.currentYear) {
-				tickbox.setAttribute("style", "background-color: hsl(0, 0%, 40%); border: none;");
+				tickbox.setAttribute("style", "background-color: hsl(0, 0%, 33%); border: none;");
 			}
 			if (set.has(i)) {
 				let count = 0;
@@ -171,7 +231,7 @@ function generateStats(userData, year) {
 				} else if (count >= 7 && count <= 9) {
 					tickbox.setAttribute("style", "background-color: hsl(130, 60%, 65%); border: 2px solid hsl(130, 60%, 75%);");
 				} else if (count >= 10) {
-					tickbox.setAttribute("style", "background-color: hsl(100, 100%, 78%); border: 2px solid hsl(100, 100%, 88%);");
+					tickbox.setAttribute("style", "background-color: hsl(100, 100%, 80%); border: 2px solid hsl(100, 100%, 100%);");
 				}
 
 				tickbox.setAttribute("data-tooltip", `I did ${count} task${count > 1 ? "s" : ""} on ${date.getMonth(index + 1, true)} ${i}th`);
@@ -248,6 +308,9 @@ async function initListeners() {
 	const nextYear = document.getElementById("next-year");
 	const statYear = document.querySelector(".stat-year");
 	const minYear = await getMinYear();
+	const openAsTab = document.querySelector(".open-tab");
+
+	openAsTab.setAttribute("href", `${chrome.runtime.getURL("html/newtab.html")}`);
 
 	prevYear.addEventListener("click", async () => {
 		const userData = await local.get(null);
@@ -306,9 +369,10 @@ function taskHeader(title, description, createdAt, goal, ticks) {
 
 	let goalProgress = "";
 	if (goal) {
-		goalProgress = `
+		goalProgress = `			
 			<span class="ticks-count">/</span>
-			<span class="ticks-count" data-hasgoal="true" contentEditable="false">${goal}</span>
+			<span class="ticks-count" data-hasgoal="true" contentEditable="false">${goal}</span>			
+			<span data-tooltip="You've accomplished a total ${ticks.length} of this task!" class="ticks-count" style="color: hsl(0, 0%, 50%); font-size: 1rem;">${Math.floor(ticks.length / goal)}</span>
 		`;
 	}
 
@@ -546,6 +610,7 @@ async function getMinYear() {
 	const { tasks } = await local.get("tasks");
 	if (tasks) {
 		const ticks = tasks.map((task) => task.ticks).flat();
+		if (ticks.length === 0) return date.currentYear;
 		const years = new Set(ticks.map((tick) => new Date(tick).getFullYear()));
 		return getMinNumber(Array.from(years));
 	}

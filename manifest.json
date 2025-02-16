@@ -12,10 +12,10 @@
 		"unlimitedStorage"
 	],
 	"chrome_url_overrides": {
-		"newtab": "./html/newtab.html"
+		"newtab": "./html/newtab.html?mode=newtab"
 	},
 	"action": {
-		"default_popup": "./html/popup.html",
+		"default_popup": "./html/newtab.html?mode=popup",
 		"default_title": "Bloat"
 	},
 	"background": {
