@@ -1,14 +1,5 @@
-!!- Operation confirmation
-    - Add confirmation to sensitive operation such as delete
-!!- Popup support
-    - Allow toggle stats
-!!- Make stats work
-    - Individual tasks
-!- Make UI better
-    - Add customizations ???
-    - Fix lightmode, shit is a hot garbage
-!- Make components toggable
-    - Stats
-    - Todo List
-??- Todo List
+
+2.0
+    - Add customization for tasks
     - Add Todo List support
+??- Todo List    

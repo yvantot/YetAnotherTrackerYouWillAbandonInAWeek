@@ -1,5 +1,12 @@
 const local = chrome.storage.local;
 const STORAGE_DEFAULT = {
+	settings: {
+		visibility: {
+			stat: true,
+			list: true,
+		},
+	},
+
 	tasks: [
 		{
 			id: 0,
@@ -9,6 +16,7 @@ const STORAGE_DEFAULT = {
 			goal: 0,
 			done: false,
 			type: "generic",
+			statFocused: false,
 			ticks: [],
 		},
 	],

@@ -13,18 +13,22 @@ body {
 		display: initial !important;
 	}
 }
+
 main {
 	display: block;	
 	height: 500px;
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding: 1.5rem 0;
+	padding: 2rem 0;
+}
+#settings{
+	display: none;
 }
 .usertask-container {
 	display: flex;
 	justify-content: center;
 	overflow-x: hidden;
-	padding: 0 1rem;
+	padding: 1rem;
 	margin: 0;
 }
 .usertask {
@@ -42,7 +46,7 @@ main {
 				font-size: 0.8rem;
 			}
 		}
-	}
+	}	
 }
 
 .tick,
@@ -55,6 +59,9 @@ main {
 .stats-container {
 	display: none;
 }
+.focus-stat{
+	display: none !important;
+}
 `;
 }
 
@@ -63,13 +70,6 @@ function dateFormat(date) {
 	const month = String(date.getMonth() + 1).padStart(2, "0");
 	const day = String(date.getDate()).padStart(2, "0");
 	return `${year}-${month}-${day}`;
-}
-
-function timeFormat(date) {
-	const hour = String(date.getHours()).padStart(2, "0");
-	const minute = String(date.getMinutes()).padStart(2, "0");
-	const seconds = String(date.getSeconds()).padStart(2, "0");
-	return `${hour}:${minute}:${seconds}`;
 }
 
 function formatTimeAgo(ms) {
@@ -91,7 +91,7 @@ function formatTimeAgo(ms) {
 	}
 }
 
-function taskToolbar(hasGoal) {
+function taskToolbar(hasGoal, statFocused) {
 	const elGoal = hasGoal
 		? ""
 		: `<button class="goal-task" data-tooltip="Goal">
@@ -102,6 +102,9 @@ function taskToolbar(hasGoal) {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
             </button>       
 			${elGoal}            
+			<button class="focus-stat" style="${statFocused ? "background-color: light-dark(hsl(145, 60%, 40%), hsl(145, 55%, 40%))" : ""}" data-tooltip="Focus this task in stat">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M280-280h80v-200h-80v200Zm320 0h80v-400h-80v400Zm-160 0h80v-120h-80v120Zm0-200h80v-80h-80v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"/></svg>
+            </button>
             <button class="customize-task" data-tooltip="Customize">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>
             </button>
@@ -160,8 +163,7 @@ async function addNewTask() {
 	}
 }
 
-function generateStats(userData, year) {
-	const { tasks } = userData;
+function generateStats(tasks, year) {
 	if (!tasks) return;
 	const ticksPerMonth = {
 		0: [],
@@ -206,14 +208,14 @@ function generateStats(userData, year) {
 			if (year === date.currentYear) {
 				if (index <= currentMonth) {
 					if (index < currentMonth || (index === currentMonth && i < currentDay)) {
-						tickbox.setAttribute("style", "background-color: hsl(0, 0%, 33%); border: none;");
+						tickbox.classList.add("daybox-done");
 					} else if (index === currentMonth && i === currentDay) {
-						tickbox.setAttribute("style", "background-color: hsl(59, 50%, 50.20%); border: none;");
+						tickbox.classList.add("daybox-today");
 						tickbox.setAttribute("data-tooltip", `Today is ${date.getMonth(index + 1, true)} ${i}th`);
 					}
 				}
 			} else if (year < date.currentYear) {
-				tickbox.setAttribute("style", "background-color: hsl(0, 0%, 33%); border: none;");
+				tickbox.classList.add("daybox-done");
 			}
 			if (set.has(i)) {
 				let count = 0;
@@ -223,15 +225,15 @@ function generateStats(userData, year) {
 					}
 				}
 				if (count === 1) {
-					tickbox.setAttribute("style", "background-color: hsl(160, 60%, 25%); border: 2px solid hsl(160, 40%, 35%);");
+					tickbox.classList.add("daybox-one");
 				} else if (count >= 2 && count <= 3) {
-					tickbox.setAttribute("style", "background-color: hsl(150, 30%, 40%); border: 2px solid hsl(150, 40%, 50%);");
+					tickbox.classList.add("daybox-two");
 				} else if (count >= 4 && count <= 6) {
-					tickbox.setAttribute("style", "background-color: hsl(140, 45%, 45%); border: 2px solid hsl(140, 45%, 55%);");
+					tickbox.classList.add("daybox-three");
 				} else if (count >= 7 && count <= 9) {
-					tickbox.setAttribute("style", "background-color: hsl(130, 60%, 65%); border: 2px solid hsl(130, 60%, 75%);");
+					tickbox.classList.add("daybox-four");
 				} else if (count >= 10) {
-					tickbox.setAttribute("style", "background-color: hsl(100, 100%, 80%); border: 2px solid hsl(100, 100%, 100%);");
+					tickbox.classList.add("daybox-five");
 				}
 
 				tickbox.setAttribute("data-tooltip", `I did ${count} task${count > 1 ? "s" : ""} on ${date.getMonth(index + 1, true)} ${i}th`);
@@ -262,7 +264,7 @@ function generateTasks(userData) {
 }
 
 function createTask(task) {
-	const { id, ticks, title, description, createdAt, goal, done } = task;
+	const { id, ticks, title, description, createdAt, goal, done, statFocused } = task;
 	const parent = document.querySelector(".usertasks");
 	const header = document.createElement("header");
 	const main = document.createElement("div");
@@ -273,7 +275,7 @@ function createTask(task) {
 
 	header.innerHTML = `       
 	   ${taskHeader(title, description, createdAt, goal, ticks)}
-	   ${taskToolbar(goal)}
+	   ${taskToolbar(goal, statFocused)}
     `;
 
 	main.innerHTML = `               
@@ -304,13 +306,120 @@ function createTask(task) {
 
 async function initListeners() {
 	const addTask = document.getElementById("add-task");
+
+	const setting = document.getElementById("settings");
+	const closeSetting = document.getElementById("close-setting");
+	const toggleStat = document.getElementById("toggle-stat");
+	const toggleList = document.getElementById("toggle-list");
+	const importData = document.getElementById("import-data");
+	const exportData = document.getElementById("export-data");
+	const addData = document.getElementById("add-data");
+
+	const resetFilter = document.getElementById("reset-filter");
+
 	const prevYear = document.getElementById("prev-year");
 	const nextYear = document.getElementById("next-year");
 	const statYear = document.querySelector(".stat-year");
+
 	const minYear = await getMinYear();
 	const openAsTab = document.querySelector(".open-tab");
 
 	openAsTab.setAttribute("href", `${chrome.runtime.getURL("html/newtab.html")}`);
+
+	exportData.addEventListener("click", async () => {
+		const userData = await local.get(null);
+		const json = JSON.stringify(userData);
+		const data = btoa(json);
+		const blob = new Blob([data], { type: "text/plain" });
+		const url = URL.createObjectURL(blob);
+		const download = document.createElement("a");
+		download.href = url;
+		download.download = `YATYA-${dateFormat(new Date())}.yatya`;
+		document.body.appendChild(download);
+		download.click();
+		download.remove();
+		URL.revokeObjectURL(url);
+	});
+
+	addData.addEventListener("change", async (event) => {
+		const file = event.target.files[0];
+		if (!file) return;
+		const extension = file.name.split(".").pop();
+
+		if (extension === "yatya") {
+			const { tasks } = await local.get("tasks");
+			let latestID = getMaxNumber(tasks.map((task) => task.id));
+			if (tasks.length !== 0) latestID += 1;
+
+			const newTasks = JSON.parse(atob(await file.text()));
+			if (newTasks.tasks.length > 0) {
+				newTasks.tasks.forEach((task, index) => {
+					task.id = latestID;
+					index += 1;
+					latestID += index;
+					tasks.push(task);
+				});
+
+				await local.set({ tasks });
+			}
+		} else {
+			alert("Invalid file");
+		}
+	});
+
+	importData.addEventListener("change", async (event) => {
+		const file = event.target.files[0];
+		if (!file) return;
+		const extension = file.name.split(".").pop();
+
+		if (extension === "yatya") {
+			const isConfirmed = window.confirm("This action is permanent and will overwrite all of your data, proceed?");
+			if (isConfirmed === false) return;
+
+			const data = JSON.parse(atob(await file.text()));
+			await local.set(data);
+		} else {
+			alert("Invalid file");
+		}
+	});
+
+	resetFilter.addEventListener("click", async () => {
+		const { tasks } = await local.get("tasks");
+		tasks.forEach((task) => (task.statFocused = false));
+		await local.set({ tasks });
+	});
+
+	setting.addEventListener("click", () => {
+		const settingMain = document.querySelector(".settings-container");
+		settingMain.classList.toggle("hidden", false);
+	});
+
+	closeSetting.addEventListener("click", () => {
+		const settingMain = document.querySelector(".settings-container");
+		settingMain.classList.toggle("hidden", true);
+	});
+
+	toggleStat.addEventListener("click", async () => {
+		const statMain = document.querySelector(".stats-container");
+		statMain.classList.toggle("hidden");
+
+		const { settings } = await local.get("settings");
+		if (settings) {
+			settings.visibility.stat = !settings.visibility.stat;
+			await local.set({ settings });
+		}
+	});
+
+	toggleList.addEventListener("click", async () => {
+		const listMain = document.querySelector(".todolist-container");
+		listMain.classList.toggle("hidden");
+
+		const { settings } = await local.get("settings");
+		if (settings) {
+			settings.visibility.list = !settings.visibility.list;
+			await local.set({ settings });
+		}
+	});
 
 	prevYear.addEventListener("click", async () => {
 		const userData = await local.get(null);
@@ -335,23 +444,8 @@ async function initListeners() {
 }
 
 function initDisplay() {
-	const currentDate = document.querySelector(".current-date");
-	const currentTime = document.querySelector(".current-time");
 	const statYear = document.querySelector(".stat-year");
-
 	statYear.textContent = date.currentYear;
-
-	let timeUpdate = new Date();
-	currentDate.textContent = dateFormat(timeUpdate);
-	currentTime.textContent = timeFormat(timeUpdate);
-
-	// Update stats time
-	setInterval(() => {
-		// Current date & time
-		timeUpdate = new Date();
-		currentDate.textContent = dateFormat(timeUpdate);
-		currentTime.textContent = timeFormat(timeUpdate);
-	}, 1000);
 
 	// Update task timers
 	setInterval(() => {
@@ -394,6 +488,7 @@ function taskListeners(header, main, id) {
 	const taskTitle = header.querySelector("h3");
 	const taskDescription = header.querySelector(".task-info span");
 	const taskDone = header.querySelector(".done-task");
+	const taskFocus = header.querySelector(".focus-stat");
 	const taskDelete = header.querySelector(".delete-task");
 	const taskGoal = header.querySelector(".goal-task");
 	const taskUp = header.querySelector(".up-task");
@@ -413,6 +508,12 @@ function taskListeners(header, main, id) {
 		return;
 	}
 
+	taskFocus.addEventListener("click", () => {
+		getSetTask(({ task }) => {
+			task.statFocused = !task.statFocused;
+		}, id);
+	});
+
 	taskDone.addEventListener("click", () => {
 		getSetTask(({ task }) => {
 			task.done = !task.done;
@@ -421,7 +522,11 @@ function taskListeners(header, main, id) {
 
 	taskDelete.addEventListener("click", () => {
 		getSetTask(({ tasks, index }) => {
-			tasks.splice(index, 1);
+			const isConfirmed = window.confirm("This action is permanent, proceed?");
+			if (isConfirmed) {
+				tasks.splice(index, 1);
+				return;
+			}
 		}, id);
 	});
 
@@ -452,7 +557,7 @@ function taskListeners(header, main, id) {
 	});
 
 	taskCustomize.addEventListener("click", () => {
-		alert("Customize");
+		alert("Coming soon!");
 	});
 
 	function goalSanitizeInput(string) {

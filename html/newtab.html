@@ -14,10 +14,52 @@
 	<body>
 		<!-- Change color, make tick color go from down to up -->
 
+		<div class="settings-container hidden">
+			<div class="settings">
+				<button id="close-setting" class="close-setting">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+				</button>
+				<span>Settings</span>
+				<div class="horizontal-line"></div>
+				<div class="feature-container">
+					<div class="setting-feature">
+						<span>Toggle task stats</span>
+						<div>
+							<button id="toggle-stat">Show / Hide</button>
+						</div>
+					</div>
+					<div class="setting-feature">
+						<span>Toggle todo-list</span>
+						<div>
+							<button id="toggle-list">Show / Hide</button>
+						</div>
+					</div>
+					<div class="setting-feature">
+						<span>Load data from file</span>
+						<div>
+							<input type="file" id="import-data" />
+						</div>
+					</div>
+					<div class="setting-feature">
+						<span>Add tasks from file</span>
+						<div>
+							<input type="file" id="add-data" />
+						</div>
+					</div>
+					<div class="setting-feature">
+						<span>Export data</span>
+						<div>
+							<button id="export-data">Download data to computer</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="links">
 			<div class="app-info">
-				<span class="app-title">YATYA</span>
-				<span class="app-author">yvantot</span>
+				<span class="app-title" data-tooltip="Yet Another Tracker You'll Abandon (prove me wrong!)">YATYA</span>
+				<span class="app-author" data-tooltip="Independent, 100% offline, free and open-source">yvantot</span>
 			</div>
 			<a class="app-store" href="http://yvantot.github.io/canvas" target="_blank">Super-charge your life</a>
 			<a class="open-tab" data-tooltip="Fullscreen" target="_blank">Open as a tab</a>
@@ -25,8 +67,11 @@
 
 		<main>
 			<!-- Stat -->
-			<section class="stats-container">
+			<section class="stats-container hidden">
 				<div class="userstats">
+					<button id="reset-filter" class="reset-filter hidden" data-tooltip="Remove task focus, show all">
+						<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m592-481-57-57 143-182H353l-80-80h487q25 0 36 22t-4 42L592-481ZM791-56 560-287v87q0 17-11.5 28.5T520-160h-80q-17 0-28.5-11.5T400-200v-247L56-791l56-57 736 736-57 56ZM535-538Z" /></svg>
+					</button>
 					<div class="stat-year-container">
 						<button id="prev-year">
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
@@ -101,10 +146,6 @@
 						<div id="month-12" class="datamonth"></div>
 					</div>
 				</div>
-				<div class="stat-header">
-					<p class="current-time"></p>
-					<p class="current-date"></p>
-				</div>
 			</section>
 			<!-- Tasks -->
 			<section class="usertask-container">
@@ -119,7 +160,7 @@
 				<div class="usertasks"></div>
 			</section>
 
-			<section class="todolist-container"></section>
+			<section class="todolist-container hidden"></section>
 		</main>
 	</body>
 </html>

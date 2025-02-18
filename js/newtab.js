@@ -14,21 +14,50 @@ function popupInit() {
 
 chrome.storage.onChanged.addListener(async () => {
 	const userData = await local.get(null);
-	console.log(userData.tasks);
 
 	timers = [];
 	generateTasks(userData);
-	generateStats(userData, date.currentYear);
+
+	const statFocusedTasks = userData.tasks.filter((task) => task.statFocused);
+	if (statFocusedTasks.length > 0) {
+		document.getElementById("reset-filter").classList.remove("hidden");
+		generateStats(statFocusedTasks, date.currentYear);
+	} else {
+		document.getElementById("reset-filter").classList.add("hidden");
+		generateStats(userData.tasks, date.currentYear);
+	}
 });
 
 async function init() {
 	const userData = await local.get(null);
 	generateTasks(userData);
-	generateStats(userData, date.currentYear);
+
+	const statFocusedTasks = userData.tasks.filter((task) => task.statFocused);
+	if (statFocusedTasks.length > 0) {
+		document.getElementById("reset-filter").classList.remove("hidden");
+		generateStats(statFocusedTasks, date.currentYear);
+	} else {
+		document.getElementById("reset-filter").classList.add("hidden");
+		generateStats(userData.tasks, date.currentYear);
+	}
 
 	popupInit();
 	initListeners();
 	initDisplay();
+	toggleContainer(userData.settings);
+}
+
+function toggleContainer(settings) {
+	if (settings && settings.visibility) {
+		const { stat, list } = settings.visibility;
+		const containers = document.querySelectorAll(".stats-container, .todolist-container");
+		if (stat) {
+			containers[0].classList.remove("hidden");
+		}
+		if (list) {
+			containers[1].classList.remove("hidden");
+		}
+	}
 }
 
 init();

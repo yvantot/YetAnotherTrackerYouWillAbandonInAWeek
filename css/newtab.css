@@ -3,7 +3,7 @@
 	src: url("./../assets/Montserrat.ttf") format("truetype");
 }
 :root {
-	color-scheme: light dark;
+	color-scheme: light;
 	--tick-color: light-dark(hsl(145, 60%, 40%), hsl(145, 55%, 50%));
 }
 *,
@@ -24,11 +24,11 @@
 	background: none;
 }
 main {
-	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 10%));
+	padding-top: 1.5rem;
+	background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 10%));
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	height: 100vh;
-	gap: 1rem;
 }
 .tools {
 	display: flex;
@@ -83,51 +83,50 @@ main {
 
 .stats-container {
 	flex-basis: 16vw;
-	box-shadow: 1px 0px 3px light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 5%));
-	overflow: hidden;
+	box-shadow: 3px 0px 5px light-dark(hsl(0, 0%, 75%), hsl(0, 0%, 5%));
 }
 
 .usertask-container {
-	flex-grow: 0;
+	justify-self: flex-end;
+	flex-grow: 1;
 	flex-basis: 60vw;
 	overflow-y: auto;
 	flex-wrap: wrap;
-	padding-top: 1rem;
+	padding: 1rem;
 	gap: 1rem;
 	position: relative;
 }
 
 .todolist-container {
-	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 5%));
+	background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 5%));
 	flex-basis: 20vw;
 	padding: 1rem;
-}
-.stat-header {
-	height: 100%;
-	padding: 1rem;
-	background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 20%));
-	.current-time {
-		font-weight: 500;
-		user-select: none;
-		font-size: 1.2rem;
-		letter-spacing: 1px;
-		text-align: center;
-		color: light-dark(hsla(0, 0%, 0%, 0.5), hsla(0, 0%, 100%, 0.5));
-	}
-	.current-date {
-		user-select: none;
-		text-align: center;
-		font-size: 0.8rem;
-		font-weight: 500;
-		color: light-dark(hsla(0, 0%, 0%, 0.2), hsla(0, 0%, 100%, 0.2));
-	}
 }
 
 .userstats {
 	display: flex;
 	flex-direction: column;
-	background-color: light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 15%));
-	padding: 1rem;
+	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 15%));
+	height: 100%;
+	padding: 2rem 1rem;
+	position: relative;
+
+	.reset-filter {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		bottom: 5%;
+		right: 0.5rem;
+		opacity: 0.5;
+		transition: opacity 0.3s ease;
+		background-color: light-dark(hsl(0, 0%, 50%), transparent);
+		padding: 3px;
+		border-radius: 3px;
+	}
+	.reset-filter:hover {
+		opacity: 1;
+	}
 	.stat-year-container {
 		display: flex;
 		justify-content: center;
@@ -196,21 +195,48 @@ main {
 		grid-template-rows: repeat(31, 1fr);
 	}
 	.daybox {
-		width: 85%;
-		height: 85%;
-		background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 25%));
+		width: 75%;
+		height: 75%;
+		background-color: light-dark(hsl(0, 0%, 85%), hsl(0, 0%, 25%));
 		border-radius: 2px;
+	}
+	.daybox-done {
+		background-color: light-dark(hsl(0, 0%, 70%), hsl(0, 0%, 33%));
+		border: none !important;
+	}
+	.daybox-today {
+		background-color: hsl(59, 50%, 50.2%);
+		border: none !important;
+	}
+	.daybox-one {
+		background-color: light-dark(hsl(100, 50%, 70%), hsl(160, 60%, 25%));
+		border: 2px solid light-dark(hsl(100, 40%, 60%), hsl(160, 40%, 35%)) !important;
+	}
+	.daybox-two {
+		background-color: light-dark(hsl(120, 50%, 65%), hsl(150, 30%, 40%));
+		border: 2px solid light-dark(hsl(120, 40%, 55%), hsl(150, 40%, 50%)) !important;
+	}
+	.daybox-three {
+		background-color: light-dark(hsl(130, 50%, 55%), hsl(140, 45%, 45%));
+		border: 2px solid light-dark(hsl(130, 40%, 45%), hsl(140, 45%, 55%)) !important;
+	}
+	.daybox-four {
+		background-color: light-dark(hsl(140, 50%, 45%), hsl(130, 60%, 65%));
+		border: 2px solid light-dark(hsl(140, 50%, 35%), hsl(130, 60%, 75%)) !important;
+	}
+	.daybox-five {
+		background-color: light-dark(hsl(150, 50%, 35%), hsl(100, 100%, 80%));
+		border: 2px solid light-dark(hsl(150, 50%, 25%), hsl(100, 100%, 100%)) !important;
 	}
 }
 
 .usertask {
-	overflow: hidden;
 	margin: 0 1rem;
 	margin-bottom: 1rem;
 	height: fit-content;
 	padding: 1rem 1.5rem;
 	gap: 1rem;
-	box-shadow: 0px 5px 10px light-dark(hsl(0, 0%, 85%), hsl(0, 0%, 5%));
+	box-shadow: 0px 5px 10px light-dark(hsl(0, 0%, 75%), hsl(0, 0%, 5%));
 	border-top: 2px solid light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 50%));
 	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 20%));
 	border-radius: 1rem;
@@ -219,7 +245,7 @@ main {
 	header {
 		.task-toolbar {
 			opacity: 0;
-			background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 40%));
+			background-color: light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 40%));
 			display: flex;
 			position: absolute;
 			top: 1rem;
@@ -242,7 +268,7 @@ main {
 				}
 			}
 			button:hover {
-				background-color: light-dark(hsl(0, 0%, 70%), hsl(0, 0%, 60%));
+				background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 60%));
 				svg {
 					transform: scale(1.2, 1.2);
 				}
@@ -312,17 +338,18 @@ main {
 
 	.tick-container {
 		display: flex;
+		align-items: center;
 		flex-wrap: wrap;
 		gap: 10px 3px;
 		.tick {
-			width: 20px;
-			height: 20px;
+			width: 15px;
+			height: 15px;
 			border-radius: 3px;
 			background: var(--tick-color);
 		}
 		.tick-divider {
-			width: 10px;
-			height: 20px;
+			width: 7px;
+			height: 15px;
 		}
 		.tick-delete {
 			width: 20px;
@@ -406,9 +433,10 @@ button {
 		display: inline-flex;
 		max-width: 50% !important;
 		width: fit-content !important;
+		background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 5%)) !important;
 	}
 	* {
-		color: hsl(0, 0%, 50%) !important;
+		color: light-dark(hsl(0, 0%, 20%), hsl(0, 0%, 50%)) !important;
 		font-size: 0.7rem !important;
 		font-weight: normal !important;
 	}
@@ -471,13 +499,16 @@ button {
 	font-size: 0.75rem;
 	left: 0;
 	z-index: 999;
-	bottom: -100%;
+	top: 100%;
 	padding: 6px 10px;
 	border-radius: 5px;
 	color: white;
 	background-color: hsl(238, 25%, 49%);
 	transform: scale(0.8, 0.8);
+	min-width: 10ch;
 	width: max-content;
+	max-width: 30ch;
+	text-align: center;
 	opacity: 0;
 	display: none;
 }
@@ -497,9 +528,6 @@ button {
 	}
 }
 body {
-	display: block;
-	margin-top: 1.5rem;
-	width: 100vw;
 	overflow: hidden;
 }
 .links {
@@ -510,32 +538,33 @@ body {
 	display: flex;
 	user-select: none;
 	justify-content: center;
+	align-items: last baseline;
 	gap: 5vw;
 	align-items: center;
-	background-color: light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 10%));
-	box-shadow: 2px 0px 5px hsl(0, 0%, 0%);
+	background-color: light-dark(hsl(0, 0%, 95%), hsl(0, 0%, 10%));
+	box-shadow: 2px 0px 5px light-dark(hsl(0, 0%, 50%), hsl(0, 0%, 0%));
 	z-index: 999;
 
 	.app-info {
 		.app-title {
-			color: light-dark(hsl(0, 0%, 10%), hsl(0, 0%, 90%));
+			color: light-dark(hsl(0, 0%, 20%), hsl(0, 0%, 90%));
 			font-weight: 700;
 		}
 		.app-author {
-			color: light-dark(hsl(0, 0%, 10%), hsl(0, 0%, 90%));
 			font-size: 0.8rem;
-			opacity: 0.5;
+			color: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 70%));
 		}
 	}
 	a {
 		display: none;
+		text-decoration: underline;
 		user-select: none;
 		width: fit-content;
 		cursor: pointer;
-		opacity: 0.6;
 		padding: 0 0.5rem;
-		color: light-dark(hsl(0, 0%, 10%), hsl(0, 0%, 90%));
+		color: light-dark(hsl(0, 0%, 20%), hsl(0, 0%, 70%));
 		font-size: 0.8rem;
+		font-weight: bold;
 		background: none;
 	}
 	.app-store {
@@ -549,7 +578,6 @@ body {
 @keyframes supercharge {
 	0% {
 		text-shadow: 0px 0px 0px white;
-		color: white;
 		letter-spacing: normal;
 		opacity: 0.6;
 		transform: scale(1, 1);
@@ -557,13 +585,103 @@ body {
 	80% {
 		opacity: 1;
 		text-shadow: 0px 0px 5px white;
-		color: rgb(255, 255, 126);
+		color: light-dark(black, white);
 		transform: scale(1.2, 1.1);
 	}
 	100% {
 		text-shadow: 0px 0px 0px white;
 		opacity: 0.6;
-		color: white;
 		transform: scale(1, 1);
 	}
+}
+
+.settings-container {
+	display: block;
+	position: fixed;
+	top: 10vh;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 40vw;
+	height: 80vh;
+	background: transparent;
+	backdrop-filter: blur(1rem) brightness(40%);
+	border-top: 2px solid light-dark(hsl(0, 0%, 30%), hsl(0, 0%, 50%));
+	box-shadow: 0px 1rem 2rem light-dark(hsl(0, 0%, 98%), hsl(0, 0%, 5%));
+	border-radius: 0.5rem;
+	z-index: 9999;
+	overflow-y: auto;
+
+	.settings {
+		padding: 1rem;
+		position: relative;
+
+		& > span {
+			font-weight: bold;
+			color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 90%));
+		}
+
+		.close-setting {
+			position: absolute;
+			top: 1rem;
+			right: 1rem;
+		}
+
+		.feature-container {
+			margin-top: 1rem;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+			gap: 0.5rem;
+		}
+
+		.setting-feature {
+			padding: 0.7rem;
+			border-radius: 5px;
+			display: flex;
+			justify-content: space-between;
+			background-color: light-dark(hsl(0, 0%, 50%), hsl(0, 0%, 15%));
+			align-items: center;
+
+			span,
+			button {
+				font-size: 0.9rem;
+				color: white;
+			}
+
+			button {
+				color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 60%));
+				background-color: light-dark(hsl(0, 0%, 60%), hsl(0, 0%, 20%));
+				padding: 7px;
+				border-radius: 5px;
+				width: fit-content;
+				transition: background-color 0.3s ease;
+			}
+			button:hover {
+				color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 80%));
+				background-color: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 30%));
+			}
+		}
+	}
+}
+.hidden {
+	display: none !important;
+}
+input[type="file"] {
+	overflow: hidden;
+	font-size: 0.9rem;
+	color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 80%));
+}
+input[type="file"]::file-selector-button {
+	font-size: 0.9rem;
+	color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 60%));
+	background-color: light-dark(hsl(0, 0%, 60%), hsl(0, 0%, 20%));
+	padding: 7px;
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+	border: none;
+}
+
+input[type="file"]::file-selector-button:hover {
+	color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 80%));
+	background-color: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 30%));
 }
