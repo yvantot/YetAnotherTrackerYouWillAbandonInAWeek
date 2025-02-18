@@ -3,18 +3,49 @@ const date = new DateUtil(new Date());
 let timers = [];
 let yearChanger = 0;
 
-function popupInit() {
-	const urlSearchParam = new URLSearchParams(window.location.search);
-	const tabType = urlSearchParam.get("mode");
+// DEVELOPER FUNCTIONS
+function getRandom(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-	if (tabType === "popup") {
-		insertPopupCSS();
-	}
+async function randomTickInsert() {
+	const { tasks } = await local.get("tasks");
+	const date = new Date();
+
+	tasks.forEach((task) => {
+		for (let i = 0; i < 50; i++) {
+			const year = getRandom(2023, 2024);
+			const amount = getRandom(0, 10);
+			if (year === date.getFullYear()) {
+				const month = getRandom(0, date.getMonth());
+				if (month === date.getMonth()) {
+					const day = getRandom(1, date.getDate());
+					for (let k = 0; k < amount; k++) {
+						task.ticks.push(String(new Date(year, month, day)));
+					}
+				} else {
+					const day = getRandom(1, new Date(year, month, 0).getDate());
+					for (let k = 0; k < amount; k++) {
+						task.ticks.push(String(new Date(year, month, day)));
+					}
+				}
+			} else {
+				const month = getRandom(0, 12);
+				const day = getRandom(1, new Date(year, month, 0).getDate());
+				for (let k = 0; k < amount; k++) {
+					task.ticks.push(String(new Date(year, month, day)));
+				}
+			}
+		}
+	});
+	await local.set({ tasks });
 }
 
 chrome.storage.onChanged.addListener(async () => {
 	const userData = await local.get(null);
-
+	const statYear = document.querySelector(".stat-year");
+	statYear.textContent = new Date().getFullYear();
+	yearChanger = 0;
 	timers = [];
 	generateTasks(userData);
 
@@ -40,7 +71,6 @@ async function init() {
 		document.getElementById("reset-filter").classList.add("hidden");
 		generateStats(userData.tasks, date.currentYear);
 	}
-
 	popupInit();
 	initListeners();
 	initDisplay();

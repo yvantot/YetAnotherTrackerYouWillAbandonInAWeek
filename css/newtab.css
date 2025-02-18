@@ -3,7 +3,7 @@
 	src: url("./../assets/Montserrat.ttf") format("truetype");
 }
 :root {
-	color-scheme: light;
+	color-scheme: light dark;
 	--tick-color: light-dark(hsl(145, 60%, 40%), hsl(145, 55%, 50%));
 }
 *,

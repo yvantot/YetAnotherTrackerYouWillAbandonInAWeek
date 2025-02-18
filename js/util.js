@@ -1,3 +1,11 @@
+function popupInit() {
+	const urlSearchParam = new URLSearchParams(window.location.search);
+	const tabType = urlSearchParam.get("mode");
+
+	if (tabType === "popup") {
+		insertPopupCSS();
+	}
+}
 function insertPopupCSS() {
 	const style = document.createElement("style");
 	document.head.appendChild(style);
@@ -427,8 +435,8 @@ async function initListeners() {
 		yearChanger -= 1;
 		const newYear = date.currentYear + yearChanger;
 
+		generateStats(userData.tasks, newYear);
 		statYear.textContent = newYear;
-		generateStats(userData, newYear);
 	});
 
 	nextYear.addEventListener("click", async () => {
@@ -436,8 +444,8 @@ async function initListeners() {
 		const userData = await local.get(null);
 		yearChanger += 1;
 		const newYear = date.currentYear + yearChanger;
+		generateStats(userData.tasks, newYear);
 		statYear.textContent = newYear;
-		generateStats(userData, newYear);
 	});
 
 	addTask.addEventListener("click", addNewTask);
