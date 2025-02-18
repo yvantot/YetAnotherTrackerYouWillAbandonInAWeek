@@ -329,9 +329,7 @@ async function initListeners() {
 	const nextYear = document.getElementById("next-year");
 	const statYear = document.querySelector(".stat-year");
 
-	const minYear = await getMinYear();
 	const openAsTab = document.querySelector(".open-tab");
-
 	openAsTab.setAttribute("href", `${chrome.runtime.getURL("html/newtab.html")}`);
 
 	exportData.addEventListener("click", async () => {
@@ -433,22 +431,36 @@ async function initListeners() {
 		const userData = await local.get(null);
 		if (date.currentYear + yearChanger <= minYear) return;
 		yearChanger -= 1;
-		const newYear = date.currentYear + yearChanger;
+		viewYear = date.currentYear + yearChanger;
 
-		generateStats(userData.tasks, newYear);
-		statYear.textContent = newYear;
+		// Double rendering!!! Rendering should be dependent on storage change
+		updateStat(userData, viewYear);
+		statYear.textContent = viewYear;
 	});
 
 	nextYear.addEventListener("click", async () => {
 		if (yearChanger >= 0) return;
 		const userData = await local.get(null);
 		yearChanger += 1;
-		const newYear = date.currentYear + yearChanger;
-		generateStats(userData.tasks, newYear);
-		statYear.textContent = newYear;
+		viewYear = date.currentYear + yearChanger;
+
+		// Double rendering!!!
+		updateStat(userData, viewYear);
+		statYear.textContent = viewYear;
 	});
 
 	addTask.addEventListener("click", addNewTask);
+}
+
+function updateStat(userData, year) {
+	const statFocusedTasks = userData.tasks.filter((task) => task.statFocused);
+	if (statFocusedTasks.length > 0) {
+		document.getElementById("reset-filter").classList.remove("hidden");
+		generateStats(statFocusedTasks, year);
+	} else {
+		document.getElementById("reset-filter").classList.add("hidden");
+		generateStats(userData.tasks, year);
+	}
 }
 
 function initDisplay() {
@@ -719,8 +731,7 @@ function tickProgress(goal, ticks) {
 	}
 	return progress;
 }
-async function getMinYear() {
-	const { tasks } = await local.get("tasks");
+async function getMinYear(tasks) {
 	if (tasks) {
 		const ticks = tasks.map((task) => task.ticks).flat();
 		if (ticks.length === 0) return date.currentYear;
