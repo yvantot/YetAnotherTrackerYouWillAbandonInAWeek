@@ -45,11 +45,8 @@ async function randomTickInsert() {
 
 chrome.storage.onChanged.addListener(async () => {
 	const userData = await local.get(null);
-	const statYear = document.querySelector(".stat-year");
-	statYear.textContent = new Date().getFullYear();
-	yearChanger = 0;
-	viewYear = date.currentYear;
 	timers = [];
+
 	generateTasks(userData);
 	minYear = await getMinYear(userData.tasks);
 	updateStat(userData, viewYear);

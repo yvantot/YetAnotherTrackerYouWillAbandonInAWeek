@@ -2,7 +2,16 @@ Current release:
     1.0
     - Stable & packed with features
 Next release:
-    2.0
+    1.1
+    - Day stats
+        0                  60 minutes
+        1
+        2
+        3
+        4
+        5 hours
+        ...
     - Add color customization for tasks
     - Optimize renderer by only mimicking React
+    - Add quotes
     ?- Add (Todo List) support or anything useful
