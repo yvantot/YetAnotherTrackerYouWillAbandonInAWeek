@@ -1,6 +1,9 @@
 const local = chrome.storage.local;
 const STORAGE_DEFAULT = {
 	settings: {
+		theme: {
+			mode: "system",
+		},
 		visibility: {
 			stat: true,
 			list: true,

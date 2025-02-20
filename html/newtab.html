@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-system">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,7 +7,6 @@
 		<meta name="description" content="Yet another tracker you will abandon in a week, but I'm rooting for you!" />
 		<meta name="author" content="Jun Ivanne Dalman" />
 		<link rel="stylesheet" href="../css/newtab.css" />
-		<script src="../js/util.js" defer></script>
 		<script src="../js/classes.js" defer></script>
 		<script src="../js/newtab.js" defer></script>
 	</head>
@@ -23,13 +22,13 @@
 				<div class="horizontal-line"></div>
 				<div class="feature-container">
 					<div class="setting-feature">
-						<span>Toggle task stats</span>
+						<span>Toggle year-stat</span>
 						<div>
 							<button id="toggle-stat">Show / Hide</button>
 						</div>
 					</div>
 					<div class="setting-feature">
-						<span>Toggle todo-list</span>
+						<span>Toggle day-stat</span>
 						<div>
 							<button id="toggle-list">Show / Hide</button>
 						</div>
@@ -50,6 +49,12 @@
 						<span>Export data</span>
 						<div>
 							<button id="export-data">Download data to computer</button>
+						</div>
+					</div>
+					<div class="setting-feature">
+						<span>Change to Light / Dark</span>
+						<div>
+							<button id="change-theme">Toggle theme</button>
 						</div>
 					</div>
 				</div>
@@ -160,7 +165,50 @@
 				<div class="usertasks"></div>
 			</section>
 
-			<section class="todolist-container hidden"></section>
+			<section class="daystat-container hidden">
+				<div class="daystat">
+					<div class="daystat-info">
+						<button id="prev-date">
+							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
+						</button>
+						<span id="daystat-date"></span>
+						<button id="next-date">
+							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" /></svg>
+						</button>
+					</div>
+					<div class="minutes">
+						<div class="minute">0</div>
+						<div class="minute">30</div>
+						<div class="minute">60</div>
+					</div>
+					<div class="hours">
+						<div class="hour" data-hour="0"></div>
+						<div class="hour" data-hour="1"></div>
+						<div class="hour" data-hour="2"></div>
+						<div class="hour" data-hour="3"></div>
+						<div class="hour" data-hour="4"></div>
+						<div class="hour" data-hour="5"></div>
+						<div class="hour" data-hour="6"></div>
+						<div class="hour" data-hour="7"></div>
+						<div class="hour" data-hour="8"></div>
+						<div class="hour" data-hour="9"></div>
+						<div class="hour" data-hour="10"></div>
+						<div class="hour" data-hour="11"></div>
+						<div class="hour" data-hour="12"></div>
+						<div class="hour" data-hour="13"></div>
+						<div class="hour" data-hour="14"></div>
+						<div class="hour" data-hour="15"></div>
+						<div class="hour" data-hour="16"></div>
+						<div class="hour" data-hour="17"></div>
+						<div class="hour" data-hour="18"></div>
+						<div class="hour" data-hour="19"></div>
+						<div class="hour" data-hour="20"></div>
+						<div class="hour" data-hour="21"></div>
+						<div class="hour" data-hour="22"></div>
+						<div class="hour" data-hour="23"></div>
+					</div>
+				</div>
+			</section>
 		</main>
 	</body>
 </html>
