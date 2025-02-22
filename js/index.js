@@ -5,11 +5,12 @@ import { getMinYear } from "./utils/date.js";
 import { generateTasks } from "./task/task.js";
 import { initListeners } from "./utils/listeners.js";
 import { updateDayStat, updateStat } from "./stat/stat.js";
+import { tipsInit, toggleTip } from "./utils/tip.js";
 
 import { randomTickInsert } from "./utils/dev.js";
 
 document.addEventListener("keydown", async (event) => {
-	if (event.key === "1") {
+	if (event.key === "0") {
 		await randomTickInsert();
 	}
 });
@@ -32,7 +33,14 @@ export let viewDate = {
 export let minYear;
 
 async function main() {
+	initListeners();
+	tipsInit();
+	popupInit();
+	initDisplay();
+
 	const userData = await local.get(null);
+
+	toggleTip(userData.tasks);
 
 	themeSet(userData.settings.theme.mode);
 
@@ -43,13 +51,13 @@ async function main() {
 	updateStat(userData.tasks, viewDate.viewYear);
 	updateDayStat(userData.tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
 
-	popupInit();
-	initListeners();
-	initDisplay();
 	toggleContainer(userData.settings);
 
 	storage.onChanged.addListener(async () => {
 		const userData = await local.get(null);
+
+		toggleTip(userData.tasks);
+
 		timers = [];
 		themeSet(userData.settings.theme.mode);
 		generateTasks(userData, timers);

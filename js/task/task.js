@@ -61,7 +61,7 @@ function createTask(task) {
 		<div class="tick-delete" ${ticks.length === 0 ? "style='display:none;'" : ""}>
 			<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M200-440v-80h560v80H200Z"/></svg>
 		</div>
-		${done ? tickProgress(goal, ticks, minimizeTick) : ""}
+		${done ? "" : tickProgress(goal, ticks, minimizeTick)}
 		<div class="tick-add">
 			<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" /></svg>
 		</div>

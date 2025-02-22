@@ -21,6 +21,9 @@ body {
 	a {
 		display: initial !important;
 	}
+	.help-menu{
+		display: none !important;
+	}
 }
 
 main {
@@ -71,5 +74,6 @@ main {
 .focus-stat{
 	display: none !important;
 }
+
 `;
 }

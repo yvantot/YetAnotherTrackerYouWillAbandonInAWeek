@@ -4,8 +4,6 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Yet Another Tracker</title>
-		<meta name="description" content="Yet another tracker you will abandon in a week, but I'm rooting for you!" />
-		<meta name="author" content="Jun Ivanne Dalman" />
 		<link rel="stylesheet" href="../css/newtab.css" />
 		<script type="module" src="../js/index.js" defer></script>
 	</head>
@@ -64,6 +62,7 @@
 				<span class="app-author" data-tooltip="Independent, 100% offline, free and open-source">yvantot</span>
 			</div>
 			<a class="app-store" href="http://yvantot.github.io/canvas" target="_blank">Super-charge your life</a>
+			<a class="help-menu" href="http://yvantot.github.io/main/extensions/yatya#help" target="_blank" data-tooltip="Tips and user-manual">Help</a>
 			<a class="open-tab" data-tooltip="Fullscreen" target="_blank">Open as a tab</a>
 		</div>
 
@@ -78,13 +77,13 @@
 						<button id="prev-year">
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
 						</button>
-						<span class="stat-year"> </span>
+						<span class="stat-year" data-tooltip="Stats for this year"></span>
 						<button id="next-year">
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" /></svg>
 						</button>
 					</div>
 
-					<div class="months">
+					<div class="months" data-tooltip="January ( 1 ) to December ( 12 )">
 						<div></div>
 						<div class="month">1</div>
 						<div class="month">2</div>
@@ -100,7 +99,7 @@
 						<div class="month">12</div>
 					</div>
 					<div class="statinfo">
-						<div class="days">
+						<div class="days" data-tooltip="Day ( 1 ) to day ( 31 )">
 							<div class="day">1</div>
 							<div class="day">2</div>
 							<div class="day">3</div>
@@ -159,6 +158,7 @@
 						<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" /></svg>
 					</button>
 				</div>
+				<span id="tips" class="tips"></span>
 				<div class="usertasks"></div>
 			</section>
 
@@ -168,17 +168,17 @@
 						<button id="prev-date">
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg>
 						</button>
-						<span id="daystat-date"></span>
+						<span id="daystat-date" data-tooltip="Stats for this day"></span>
 						<button id="next-date">
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" /></svg>
 						</button>
 					</div>
-					<div class="minutes">
+					<div class="minutes" data-tooltip="0 to 60 minutes">
 						<div class="minute">0</div>
 						<div class="minute">30</div>
 						<div class="minute">60</div>
 					</div>
-					<div class="hours">
+					<div class="hours" data-tooltip="00:00 am to 23:59 pm">
 						<div class="hour" data-hour="0"></div>
 						<div class="hour" data-hour="1"></div>
 						<div class="hour" data-hour="2"></div>

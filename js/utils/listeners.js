@@ -91,8 +91,8 @@ export async function initListeners() {
 	document.getElementById("close-setting").addEventListener("click", () => {
 		document.querySelector(".settings-container").classList.toggle("hidden", true);
 	});
-	// Toggle year stat
-	document.getElementById("toggle-stat").addEventListener("click", async () => {
+
+	async function toggleStat() {
 		const { settings } = await local.get("settings");
 
 		if (settings && settings.visibility) {
@@ -100,16 +100,30 @@ export async function initListeners() {
 			settings.visibility.stat = !settings.visibility.stat;
 			await local.set({ settings });
 		}
-	});
-	// Toggle day stat
-	document.getElementById("toggle-list").addEventListener("click", async () => {
-		const { settings } = await local.get("settings");
+	}
 
-		if (settings && settings.visiblity) {
+	async function toggleDaystat() {
+		const { settings } = await local.get("settings");
+		if (settings && settings.visibility) {
 			document.querySelector(".daystat-container").classList.toggle("hidden");
 			settings.visibility.list = !settings.visibility.list;
 			await local.set({ settings });
 		}
+	}
+
+	// Toggle shortcut keys
+	document.addEventListener("keydown", ({ key }) => {
+		if (key === "1") toggleStat();
+		if (key === "2") toggleDaystat();
+	});
+
+	// Toggle year stat
+	document.getElementById("toggle-stat").addEventListener("click", () => {
+		toggleStat();
+	});
+	// Toggle day stat
+	document.getElementById("toggle-list").addEventListener("click", () => {
+		toggleDaystat();
 	});
 	// Previous year stat
 	document.getElementById("prev-year").addEventListener("click", async () => {
