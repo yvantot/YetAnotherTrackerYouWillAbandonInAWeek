@@ -4,6 +4,7 @@
 }
 :root {
 	--tick-color: light-dark(hsl(145, 60%, 40%), hsl(145, 55%, 50%));
+	--tick-before: light-dark(hsl(145, 40%, 70%), hsl(145, 40%, 30%));
 }
 .theme-light {
 	color-scheme: light !important;
@@ -445,19 +446,24 @@ main {
 			border-radius: 3px;
 			background: var(--tick-color);
 		}
+		.tick-before {
+			border-radius: 0px;
+			background: var(--tick-before);
+			width: 5px;
+		}
 		.tick-divider {
 			width: 7px;
 			height: 15px;
 		}
 		.tick-delete {
-			width: 20px;
-			height: 20px;
+			width: 15px;
+			height: 15px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			border-radius: 50%;
 			background: light-dark(hsla(0, 100%, 40%, 0.3), hsla(0, 80%, 70%, 0.4));
-			transform: scale(0.6, 0.6);
+			transform: scale(0.8, 0.8);
 			transition: transform 0.3s ease;
 			svg {
 				cursor: pointer;
@@ -475,13 +481,13 @@ main {
 			}
 		}
 		.tick-add {
-			width: 20px;
-			height: 20px;
+			width: 15px;
+			height: 15px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			border-radius: 3px;
-			transform: scale(0.6, 0.6);
+			transform: scale(0.8, 0.8);
 			transition: transform 0.3s ease;
 			background: light-dark(hsla(0, 0%, 50%, 0.3), hsla(0, 0%, 70%, 0.3));
 			svg {

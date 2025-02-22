@@ -1,4 +1,4 @@
-class DateUtil {
+export default class DateUtil {
 	constructor(date) {
 		this.date = date;
 		this.currentYear = date.getFullYear();

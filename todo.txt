@@ -1,16 +1,16 @@
-Current release:
+Releases:
     1.0
     - Stable & packed with features
-Next release:
     1.1
-    - Day stats
-        0                  60 minutes
-        1
-        2
-        3
-        4
-        5 hours
-        ...
+    - Day-stat feature added, now you can analyse what you did on a specific day
+    !- Make source code clean, modular and optimize
+Next release:
+    1.1    
+    - CSS for different screens
+    - Shortcut keys
+    - Help menu
+    - Add description in day stat
+    - Handle edge case error like extension data clear
     - Add color customization for tasks
     - Optimize renderer by only mimicking React
     - Add quotes
