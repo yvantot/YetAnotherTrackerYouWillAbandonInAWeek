@@ -811,7 +811,7 @@ input[type="file"]::file-selector-button:hover {
 	color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 80%));
 	background-color: light-dark(hsl(0, 0%, 40%), hsl(0, 0%, 30%));
 }
-@media screen and (0px <= width <= 650px) {
+@media screen and (0px <= width <= 850px) {
 	main {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);

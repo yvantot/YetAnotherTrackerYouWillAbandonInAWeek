@@ -7,14 +7,6 @@ import { initListeners } from "./utils/listeners.js";
 import { updateDayStat, updateStat } from "./stat/stat.js";
 import { tipsInit, toggleTip } from "./utils/tip.js";
 
-import { randomTickInsert } from "./utils/dev.js";
-
-document.addEventListener("keydown", async (event) => {
-	if (event.key === "0") {
-		await randomTickInsert();
-	}
-});
-
 export const browser = chrome; // Remove if Firefox
 export const storage = browser.storage;
 export const local = browser.storage.local;
@@ -41,28 +33,23 @@ async function main() {
 	const userData = await local.get(null);
 
 	toggleTip(userData.tasks);
-
+	toggleContainer(userData.settings);
 	themeSet(userData.settings.theme.mode);
 
 	minYear = await getMinYear(userData.tasks);
-
 	generateTasks(userData, timers);
-
 	updateStat(userData.tasks, viewDate.viewYear);
 	updateDayStat(userData.tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
-
-	toggleContainer(userData.settings);
 
 	storage.onChanged.addListener(async () => {
 		const userData = await local.get(null);
 
-		toggleTip(userData.tasks);
-
 		timers = [];
+		toggleTip(userData.tasks);
 		themeSet(userData.settings.theme.mode);
-		generateTasks(userData, timers);
-		minYear = await getMinYear(userData.tasks);
 
+		minYear = await getMinYear(userData.tasks);
+		generateTasks(userData, timers);
 		updateStat(userData.tasks, viewDate.viewYear);
 		updateDayStat(userData.tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
 	});
