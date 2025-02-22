@@ -18,6 +18,7 @@ const STORAGE_DEFAULT = {
 			createdAt: String(new Date()),
 			goal: 0,
 			done: false,
+			minimizeTick: false,
 			type: "generic",
 			statFocused: false,
 			ticks: [],

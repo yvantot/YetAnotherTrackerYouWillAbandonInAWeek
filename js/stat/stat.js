@@ -3,46 +3,33 @@ import { date } from "../index.js";
 
 function generateStats(tasks, year) {
 	if (!tasks) return;
-	const ticksPerMonth = {
-		0: [],
-		1: [],
-		2: [],
-		3: [],
-		4: [],
-		5: [],
-		6: [],
-		7: [],
-		8: [],
-		9: [],
-		10: [],
-		11: [],
-	};
 
+	const tickFrequencies = new Map();
 	tasks.forEach((task) => {
 		task.ticks.forEach((tick) => {
 			const dateTick = new Date(tick);
 			if (dateTick.getFullYear() === year) {
-				ticksPerMonth[dateTick.getMonth()].push(dateTick.getDate());
+				const key = `${dateTick.getMonth()}-${dateTick.getDate()}`;
+				tickFrequencies.set(key, (tickFrequencies.get(key) || 0) + 1);
 			}
 		});
 	});
 
 	const months = document.querySelectorAll(".datamonth");
-	const daysOfMonths = getDaysOfMonths(year);
+
 	const currentMonth = date.currentMonth;
 	const currentDay = date.currentDay;
-
-	// RESET
-	months.forEach((month) => {
-		month.innerHTML = "";
-	});
+	const daysOfMonths = getDaysOfMonths(year);
 
 	// For every month
 	months.forEach((month, index) => {
-		const set = new Set(ticksPerMonth[index]);
+		const fragment = document.createDocumentFragment();
 
 		for (let i = 1; i <= daysOfMonths[index]; i++) {
 			const tickbox = document.createElement("span");
+			const key = `${index}-${i}`;
+			const count = tickFrequencies.get(key) || 0;
+
 			if (year === date.currentYear) {
 				if (index <= currentMonth) {
 					if (index < currentMonth || (index === currentMonth && i < currentDay)) {
@@ -55,35 +42,21 @@ function generateStats(tasks, year) {
 			} else if (year < date.currentYear) {
 				tickbox.classList.add("daybox-done");
 			}
-			if (set.has(i)) {
+			if (count > 0) {
 				tickbox.addEventListener("click", () => {
 					// Optimize this shit so user can't click this multiple times
 					updateDayStat(tasks, year, index, i);
 				});
-				let count = 0;
-				for (let n = 0; n < ticksPerMonth[index].length; n++) {
-					if (ticksPerMonth[index][n] === i) {
-						count++;
-					}
-				}
-				if (count === 1) {
-					tickbox.classList.add("daybox-one");
-				} else if (count >= 2 && count <= 3) {
-					tickbox.classList.add("daybox-two");
-				} else if (count >= 4 && count <= 6) {
-					tickbox.classList.add("daybox-three");
-				} else if (count >= 7 && count <= 9) {
-					tickbox.classList.add("daybox-four");
-				} else if (count >= 10) {
-					tickbox.classList.add("daybox-five");
-				}
+				tickbox.classList.add(count === 1 ? "daybox-one" : count <= 3 ? "daybox-two" : count <= 6 ? "daybox-three" : count <= 9 ? "daybox-four" : "daybox-five");
 
 				tickbox.setAttribute("data-tooltip", `I did ${count} task${count > 1 ? "s" : ""} on ${date.getMonth(index + 1, true)} ${i}th`);
 			}
 
 			tickbox.classList.add("daybox");
-			month.appendChild(tickbox);
+			fragment.appendChild(tickbox);
 		}
+		month.innerHTML = "";
+		month.appendChild(fragment);
 	});
 }
 

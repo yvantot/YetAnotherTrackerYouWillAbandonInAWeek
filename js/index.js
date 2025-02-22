@@ -23,6 +23,7 @@ export const date = new DateUtil(new Date());
 export let timers = [];
 export let viewDate = {
 	yearChanger: 0,
+	viewDateYear: date.currentYear,
 	viewYear: date.currentYear,
 	viewMonth: date.currentMonth,
 	viewDay: date.currentDay,

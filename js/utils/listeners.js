@@ -133,43 +133,43 @@ export async function initListeners() {
 	});
 	// Previous date stat
 	document.getElementById("prev-date").addEventListener("click", async () => {
-		if (viewDate.viewYear < minYear) return;
+		if (viewDate.viewDateYear < minYear) return;
 
 		const { tasks } = await local.get("tasks");
-		const latestDate = new Date(viewDate.viewYear, viewDate.viewMonth, 0);
+		const latestDate = new Date(viewDate.viewDateYear, viewDate.viewMonth, 0);
 
 		if (viewDate.viewDay <= 1) {
 			viewDate.viewDay = latestDate.getDate();
 			if (viewDate.viewMonth <= 0) {
 				viewDate.viewMonth = 11;
-				viewDate.viewYear -= 1;
+				viewDate.viewDateYear -= 1;
 			} else {
 				viewDate.viewMonth -= 1;
 			}
 		} else {
 			viewDate.viewDay -= 1;
 		}
-		updateDayStat(tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
+		updateDayStat(tasks, viewDate.viewDateYear, viewDate.viewMonth, viewDate.viewDay);
 	});
 	// Next date stat
 	document.getElementById("next-date").addEventListener("click", async () => {
-		const tempDate = new Date(viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
+		const tempDate = new Date(viewDate.viewDateYear, viewDate.viewMonth, viewDate.viewDay);
 		if (tempDate.getFullYear() === date.currentYear && tempDate.getMonth() === date.currentMonth && tempDate.getDate() === date.currentDay) return;
 
 		const { tasks } = await local.get("tasks");
-		const latestDate = new Date(viewDate.viewYear, viewDate.viewMonth + 1, 0);
+		const latestDate = new Date(viewDate.viewDateYear, viewDate.viewMonth + 1, 0);
 
 		if (viewDate.viewDay >= latestDate.getDate()) {
 			viewDate.viewDay = 1;
 			if (viewDate.viewMonth >= 11) {
 				viewDate.viewMonth = 0;
-				viewDate.viewYear += 1;
+				viewDate.viewDateYear += 1;
 			} else {
 				viewDate.viewMonth += 1;
 			}
 		} else {
 			viewDate.viewDay += 1;
 		}
-		updateDayStat(tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
+		updateDayStat(tasks, viewDate.viewDateYear, viewDate.viewMonth, viewDate.viewDay);
 	});
 }

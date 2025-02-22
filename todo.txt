@@ -2,12 +2,12 @@ Releases:
     1.0
     - Stable & packed with features
     1.1
-    - Day-stat feature added, now you can analyse what you did on a specific day
-    !- Make source code clean, modular and optimize
+    - Day-stat feature added, now you can analyse what you did on a specific day    
 Next release:
     1.1    
     - CSS for different screens
     - Shortcut keys
+    - on Storage change should have a reason property to make rendering more flexible
     - Help menu
     - Add description in day stat
     - Handle edge case error like extension data clear
