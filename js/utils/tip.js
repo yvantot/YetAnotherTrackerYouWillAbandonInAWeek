@@ -54,14 +54,14 @@ function getTip() {
 			"'No progress is still data. Use it.'",			
 		],
 		suggestions: [
-			"Idea: You can track *anything*—good, bad, weird, or just for fun.",
-			"Idea: Track workouts - Did you move today? Even stretching counts.",
-			"Idea: Track website visit - you might want to stop visiting 'that' website.",
+			"Idea: You can track *anything*—good, bad, weird, or just for fun!",
+			"Idea: Track workouts - Did you move today? Even stretching counts!",
+			"Idea: Track website visit - you might want to stop visiting 'that' website!",
 			"Idea: Track your habits!",
-			"Idea: Follow the PACT method, instead of 'Learn programming in 2 weeks', use 'Create 20 simple programs in C over the next 2 weeks'",
-			"Idea: Track no-sugar days - A mini health challenge to try.",
-			"Idea: Track meditation time - Even a minute counts.",
-			"Idea: Track money spent - Because every dollar has a story.",			
+			"Idea: Follow the PACT method, instead of 'Learn programming in 2 weeks', use 'Create 20 simple programs in C over the next 2 weeks'!",
+			"Idea: Track no-sugar days - A mini health challenge to try!",
+			"Idea: Track meditation time - Even a minute counts!",
+			"Idea: Track money spent - Because every dollar has a story!",			
 		]
 	};
 

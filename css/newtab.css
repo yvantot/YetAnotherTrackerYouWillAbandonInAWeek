@@ -408,6 +408,9 @@ main {
 				color: light-dark(hsl(239, 40%, 50%), hsl(239, 64%, 74%));
 				font-size: 0.9rem;
 			}
+			a:hover {
+				text-decoration: underline;
+			}
 			.task-createdAt {
 				cursor: default;
 				color: light-dark(hsl(0, 0%, 80%), hsl(0, 0%, 50%));
