@@ -4,8 +4,8 @@
 	"short_name": "YATYA",
 	"author": "Jun Ivanne Dalman",
 	"version": "1.0.0",
-	"version_name": "1.0 beta",
-	"description": "Bloat",
+	"version_name": "1.0 stable",
+	"description": "",
 	"homepage_url": "https://github.com/yvantot",
 	"permissions": [
 		"storage",
@@ -17,8 +17,5 @@
 	"action": {
 		"default_popup": "./html/newtab.html?mode=popup",
 		"default_title": "Bloat"
-	},
-	"background": {
-		"service_worker": "./js/background.js"
 	}
 }

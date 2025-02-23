@@ -12,12 +12,7 @@ export const storage = browser.storage;
 export const local = browser.storage.local;
 export const date = new DateUtil(new Date());
 //chrome = null; // Change to browser if Firefox
-
-// import { randomTickInsert } from "./utils/dev.js";
-// document.addEventListener("keydown", ({ key }) => {
-// 	if (key === "0") randomTickInsert();
-// });
-
+export let minYear;
 export let timers = [];
 export let viewDate = {
 	yearChanger: 0,
@@ -27,7 +22,37 @@ export let viewDate = {
 	viewDay: date.currentDay,
 };
 
-export let minYear;
+import { randomTickInsert } from "./utils/dev.js";
+document.addEventListener("keydown", ({ key }) => {
+	if (key === "0") randomTickInsert();
+});
+
+const STORAGE_DEFAULT = {
+	settings: {
+		theme: {
+			mode: "system",
+		},
+		visibility: {
+			stat: true,
+			list: true,
+		},
+	},
+
+	tasks: [
+		{
+			id: 0,
+			title: "Double click to change...",
+			description: "Hover to the right upperside for settings",
+			createdAt: String(new Date()),
+			goal: 0,
+			done: false,
+			minimizeTick: false,
+			type: "generic",
+			statFocused: false,
+			ticks: [],
+		},
+	],
+};
 
 async function main() {
 	initListeners();
@@ -35,7 +60,11 @@ async function main() {
 	popupInit();
 	initDisplay();
 
-	const userData = await local.get(null);
+	let userData = await local.get(null);
+	if (Object.keys(userData).length === 0) {
+		userData = STORAGE_DEFAULT;
+		await local.set(userData);
+	}
 
 	toggleContainer(userData.settings);
 	themeSet(userData.settings.theme.mode);
