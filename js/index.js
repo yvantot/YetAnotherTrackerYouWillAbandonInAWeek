@@ -13,6 +13,11 @@ export const local = browser.storage.local;
 export const date = new DateUtil(new Date());
 //chrome = null; // Change to browser if Firefox
 
+// import { randomTickInsert } from "./utils/dev.js";
+// document.addEventListener("keydown", ({ key }) => {
+// 	if (key === "0") randomTickInsert();
+// });
+
 export let timers = [];
 export let viewDate = {
 	yearChanger: 0,

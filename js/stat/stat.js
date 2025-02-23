@@ -1,5 +1,5 @@
 import { getDaysOfMonths, dateFormat } from "../utils/date.js";
-import { date } from "../index.js";
+import { date, viewDate } from "../index.js";
 
 function generateStats(tasks, year) {
 	if (!tasks) return;
@@ -44,8 +44,11 @@ function generateStats(tasks, year) {
 			}
 			if (count > 0) {
 				tickbox.addEventListener("click", () => {
-					// Optimize this shit so user can't click this multiple times
-					updateDayStat(tasks, year, index, i);
+					viewDate.viewDateYear += year - viewDate.viewDateYear;
+					viewDate.viewMonth += index - viewDate.viewMonth;
+					viewDate.viewDay += i - viewDate.viewDay;
+					console.log(viewDate.viewDateYear, viewDate.viewMonth, viewDate.viewDay);
+					updateDayStat(tasks, viewDate.viewDateYear, viewDate.viewMonth, viewDate.viewDay);
 				});
 				tickbox.classList.add(count === 1 ? "daybox-one" : count <= 3 ? "daybox-two" : count <= 6 ? "daybox-three" : count <= 9 ? "daybox-four" : "daybox-five");
 
