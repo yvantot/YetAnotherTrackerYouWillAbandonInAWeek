@@ -134,6 +134,8 @@ function taskToolbar(hasGoal, statFocused, tickMinimized) {
 
 function taskHeader(title, description, createdAt, goal, ticks) {
 	const time = ticks.length === 0 ? formatTimeAgo(new Date() - new Date(createdAt)) : formatTimeAgo(new Date() - new Date(ticks[ticks.length - 1]));
+	const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/;
+	description = description.replace(urlRegex, (match) => `<a href='${match}' target='_blank'>${match}</a>`);
 
 	let goalProgress = "";
 	if (goal) {

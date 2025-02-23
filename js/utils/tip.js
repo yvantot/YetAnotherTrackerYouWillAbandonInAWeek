@@ -2,17 +2,10 @@ import { getRandom } from "./utils.js";
 
 const elTips = document.getElementById("tips");
 
-export function toggleTip(tasks) {
-	const doingTask = tasks.filter((task) => !task.done);
-	doingTask.length === 0 ? elTips.classList.remove("hidden") : elTips.classList.add("hidden");
-}
-
 export function tipsInit() {
 	setInterval(() => {
-		if (elTips.classList.contains("hidden")) return;
 		elTips.textContent = getTip();
-	}, 10000);
-	if (elTips.classList.contains("hidden")) return;
+	}, 30000);
 	elTips.textContent = getTip();
 }
 
@@ -21,6 +14,7 @@ function getTip() {
 	const quoteAndTips = {
 		manual: [
 			"Tip: YATYA is independent, 100% offline, free, open-source and made by a solo-developer!",
+			"Tip: You can put links in description, e.g https://www.google.com/ - simply copy and paste it from your browser!",
 			"Tip: Double-click task's title or description to edit.",
 			"Tip: You can set a goal for a task by clicking the flag icon in the task toolbar.",			
 			"Tip: You can change the order of a task by clicking the arrow icon in the task toolbar.",
@@ -28,8 +22,7 @@ function getTip() {
 			"Tip: Click the ➕ button to add a task to track.",						
 			"Tip: Never lose your data again! Export/import your data in the settings.",
 			"Tip: You can toggle the visibility of the stat-bar in the settings.",
-			"Tip: You can change to dark/light mode in the settings.",
-			"Tip: Type '1' or '2' to toggle stat-bar visibility!",
+			"Tip: You can change to dark/light mode in the settings.",			
 			"Tip: You can click the 'green' boxes in year-stat-bar to analyse it in day-stat-bar.",
 		],
 		quotes: [

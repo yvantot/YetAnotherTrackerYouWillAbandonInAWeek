@@ -5,7 +5,7 @@ import { getMinYear } from "./utils/date.js";
 import { generateTasks } from "./task/task.js";
 import { initListeners } from "./utils/listeners.js";
 import { updateDayStat, updateStat } from "./stat/stat.js";
-import { tipsInit, toggleTip } from "./utils/tip.js";
+import { tipsInit } from "./utils/tip.js";
 
 export const browser = chrome; // Remove if Firefox
 export const storage = browser.storage;
@@ -32,7 +32,6 @@ async function main() {
 
 	const userData = await local.get(null);
 
-	toggleTip(userData.tasks);
 	toggleContainer(userData.settings);
 	themeSet(userData.settings.theme.mode);
 
@@ -45,7 +44,6 @@ async function main() {
 		const userData = await local.get(null);
 
 		timers = [];
-		toggleTip(userData.tasks);
 		themeSet(userData.settings.theme.mode);
 
 		minYear = await getMinYear(userData.tasks);

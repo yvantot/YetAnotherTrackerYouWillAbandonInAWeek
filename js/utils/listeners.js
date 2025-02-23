@@ -92,31 +92,6 @@ export async function initListeners() {
 		document.querySelector(".settings-container").classList.toggle("hidden", true);
 	});
 
-	async function toggleStat() {
-		const { settings } = await local.get("settings");
-
-		if (settings && settings.visibility) {
-			document.querySelector(".stats-container").classList.toggle("hidden");
-			settings.visibility.stat = !settings.visibility.stat;
-			await local.set({ settings });
-		}
-	}
-
-	async function toggleDaystat() {
-		const { settings } = await local.get("settings");
-		if (settings && settings.visibility) {
-			document.querySelector(".daystat-container").classList.toggle("hidden");
-			settings.visibility.list = !settings.visibility.list;
-			await local.set({ settings });
-		}
-	}
-
-	// Toggle shortcut keys
-	document.addEventListener("keydown", ({ key }) => {
-		if (key === "1") toggleStat();
-		if (key === "2") toggleDaystat();
-	});
-
 	// Toggle year stat
 	document.getElementById("toggle-stat").addEventListener("click", () => {
 		toggleStat();
@@ -186,4 +161,23 @@ export async function initListeners() {
 		}
 		updateDayStat(tasks, viewDate.viewDateYear, viewDate.viewMonth, viewDate.viewDay);
 	});
+}
+
+async function toggleStat() {
+	const { settings } = await local.get("settings");
+
+	if (settings && settings.visibility) {
+		document.querySelector(".stats-container").classList.toggle("hidden");
+		settings.visibility.stat = !settings.visibility.stat;
+		await local.set({ settings });
+	}
+}
+
+async function toggleDaystat() {
+	const { settings } = await local.get("settings");
+	if (settings && settings.visibility) {
+		document.querySelector(".daystat-container").classList.toggle("hidden");
+		settings.visibility.list = !settings.visibility.list;
+		await local.set({ settings });
+	}
 }
