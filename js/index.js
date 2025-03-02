@@ -21,11 +21,15 @@ export let viewDate = {
 	viewMonth: date.currentMonth,
 	viewDay: date.currentDay,
 };
+export let taskMouse = {
+	taskHolding: null,
+	taskHovering: null,
+};
 
-import { randomTickInsert } from "./utils/dev.js";
-document.addEventListener("keydown", ({ key }) => {
-	if (key === "0") randomTickInsert();
-});
+// import { randomTickInsert } from "./utils/dev.js";
+// document.addEventListener("keydown", ({ key }) => {
+// 	if (key === "0") randomTickInsert();
+// });
 
 const STORAGE_DEFAULT = {
 	settings: {
@@ -74,17 +78,22 @@ async function main() {
 	updateStat(userData.tasks, viewDate.viewYear);
 	updateDayStat(userData.tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
 
-	storage.onChanged.addListener(async () => {
-		const userData = await local.get(null);
+	storage.onChanged.addListener(updateUI);
 
-		timers = [];
-		themeSet(userData.settings.theme.mode);
+	// Avoid shotgun-loading
+	document.body.classList.remove("hidden");
+}
 
-		minYear = await getMinYear(userData.tasks);
-		generateTasks(userData, timers);
-		updateStat(userData.tasks, viewDate.viewYear);
-		updateDayStat(userData.tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
-	});
+export async function updateUI() {
+	const userData = await local.get(null);
+
+	timers = [];
+	themeSet(userData.settings.theme.mode);
+
+	minYear = await getMinYear(userData.tasks);
+	generateTasks(userData, timers);
+	updateStat(userData.tasks, viewDate.viewYear);
+	updateDayStat(userData.tasks, viewDate.viewYear, viewDate.viewMonth, viewDate.viewDay);
 }
 
 main();

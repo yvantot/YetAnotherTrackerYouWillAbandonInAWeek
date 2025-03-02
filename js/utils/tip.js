@@ -5,7 +5,7 @@ const elTips = document.getElementById("tips");
 export function tipsInit() {
 	setInterval(() => {
 		elTips.textContent = getTip();
-	}, 30000);
+	}, 20000);
 	elTips.textContent = getTip();
 }
 
@@ -24,6 +24,7 @@ function getTip() {
 			"Tip: You can toggle the visibility of the stat-bar in the settings.",
 			"Tip: You can change to dark/light mode in the settings.",			
 			"Tip: You can click the 'green' boxes in year-stat-bar to analyse it in day-stat-bar.",
+			"Tip: You can link local files such as PDFs in description, however, you can only access it by right-clicking, open it as a tab.\nThis is a browser-imposed security."
 		],
 		quotes: [
 			"'We are what we repeatedly do. Excellence, then, is not an act, but a habit.' - Aristotle",

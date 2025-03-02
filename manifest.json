@@ -4,8 +4,7 @@
 	"short_name": "YATYA",
 	"author": "Jun Ivanne Dalman",
 	"version": "1.0.0",
-	"version_name": "1.0 stable",
-	"description": "",
+	"description": "General-purpose tracker that lives in your newtab, popup or as a tab",
 	"homepage_url": "https://github.com/yvantot",
 	"permissions": [
 		"storage",
@@ -16,6 +15,6 @@
 	},
 	"action": {
 		"default_popup": "./html/newtab.html?mode=popup",
-		"default_title": "Bloat"
+		"default_title": "YATYA - Yet Another Tracker You'll Abandon"
 	}
 }

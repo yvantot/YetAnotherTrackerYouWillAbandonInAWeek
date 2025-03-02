@@ -1,6 +1,7 @@
 import { dateFormat, formatTimeAgo } from "../utils/date.js";
 import { local, date, timers } from "../index.js";
 import { getMaxNumber } from "../utils/utils.js";
+import { taskMouse } from "../index.js";
 
 export async function addNewTask() {
 	const { tasks } = await local.get("tasks");
@@ -10,8 +11,8 @@ export async function addNewTask() {
 		if (tasks.length !== 0) latestID += 1;
 		const defaultTask = {
 			id: latestID,
-			title: "Double click this to change...",
-			description: "Hover to the right upperside for settings",
+			title: "Title (double click)",
+			description: "Description (double click)",
 			createdAt: String(new Date()),
 			goal: 0,
 			done: false,
@@ -51,8 +52,12 @@ function createTask(task) {
 
 	main.setAttribute("class", "tick-container");
 	container.setAttribute("class", "usertask");
+	container.dataset.id = id;
 
 	header.innerHTML = `       
+		<button class="task-drag">
+			<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M360-160q-33 0-56.5-23.5T280-240q0-33 23.5-56.5T360-320q33 0 56.5 23.5T440-240q0 33-23.5 56.5T360-160Zm240 0q-33 0-56.5-23.5T520-240q0-33 23.5-56.5T600-320q33 0 56.5 23.5T680-240q0 33-23.5 56.5T600-160ZM360-400q-33 0-56.5-23.5T280-480q0-33 23.5-56.5T360-560q33 0 56.5 23.5T440-480q0 33-23.5 56.5T360-400Zm240 0q-33 0-56.5-23.5T520-480q0-33 23.5-56.5T600-560q33 0 56.5 23.5T680-480q0 33-23.5 56.5T600-400ZM360-640q-33 0-56.5-23.5T280-720q0-33 23.5-56.5T360-800q33 0 56.5 23.5T440-720q0 33-23.5 56.5T360-640Zm240 0q-33 0-56.5-23.5T520-720q0-33 23.5-56.5T600-800q33 0 56.5 23.5T680-720q0 33-23.5 56.5T600-640Z"/></svg>
+		</button>		
 	   ${taskHeader(title, description, createdAt, goal, ticks)}
 	   ${taskToolbar(goal, statFocused, minimizeTick)}
 	`;
@@ -72,7 +77,7 @@ function createTask(task) {
 	}
 
 	// Add Listeners
-	taskListeners(header, main, id);
+	taskListeners(container, header, main, id);
 
 	// For updating task timers
 	const timer = header.querySelector(".time-after");
@@ -132,10 +137,14 @@ function taskToolbar(hasGoal, statFocused, tickMinimized) {
 		</div>`;
 }
 
+function parseLink(string) {
+	const urlRegex = /(https|http|file):\/\/\/?([\w:/%().?&#\-=]+)/g;
+	return string.replace(urlRegex, (match) => `<a href='${match}' data-tooltip='${match}' target='_blank'>link</a>`);
+}
+
 function taskHeader(title, description, createdAt, goal, ticks) {
 	const time = ticks.length === 0 ? formatTimeAgo(new Date() - new Date(createdAt)) : formatTimeAgo(new Date() - new Date(ticks[ticks.length - 1]));
-	const urlRegex = /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/;
-	description = description.replace(urlRegex, (match) => `<a href='${match}' target='_blank'>${match}</a>`);
+	const showDescription = parseLink(description);
 
 	let goalProgress = "";
 	if (goal) {
@@ -148,7 +157,7 @@ function taskHeader(title, description, createdAt, goal, ticks) {
 
 	return `<div class="task-info">
 			<h3 data-type="title" contentEditable="false">${title}</h3>
-			<span data-type="description" contentEditable="false">${description}</span>
+			<span data-type="description" contentEditable="false" data-value="${description}">${showDescription}</span>
 			<span class="task-createdAt">${dateFormat(new Date(createdAt))}</span>
 		</div>
 		<div class="horizontal-line"></div>
@@ -161,8 +170,9 @@ function taskHeader(title, description, createdAt, goal, ticks) {
 		</div>`;
 }
 
-function taskListeners(header, main, id) {
+function taskListeners(container, header, main, id) {
 	const taskTitle = header.querySelector("h3");
+	const taskDrag = header.querySelector(".task-drag");
 	const taskDescription = header.querySelector(".task-info span");
 	const taskDone = header.querySelector(".done-task");
 	const taskFocus = header.querySelector(".focus-stat");
@@ -332,14 +342,18 @@ function taskListeners(header, main, id) {
 			const self = event.target;
 			const type = self.getAttribute("data-type");
 			const isEditable = self.getAttribute("contentEditable") === "true";
+			const description = self.dataset.value;
 			self.setAttribute("contentEditable", String(!isEditable));
 			self.classList.toggle("editing-info");
 			self.focus();
 
 			if (isEditable) {
 				getSetTask(({ task }) => {
-					task[type] = element.textContent;
+					task[type] = self.textContent;
+					if (description) self.innerHTML = parseLink(description);
 				}, id);
+			} else {
+				if (description) self.textContent = description;
 			}
 		});
 
@@ -348,13 +362,15 @@ function taskListeners(header, main, id) {
 				const self = event.target;
 				const type = self.getAttribute("data-type");
 				const isEditable = self.getAttribute("contentEditable") === "true";
+				const description = self.dataset.value;
 				self.setAttribute("contentEditable", String(!isEditable));
 				self.classList.toggle("editing-info");
 				self.focus();
 
 				if (isEditable) {
 					getSetTask(({ task }) => {
-						task[type] = element.textContent;
+						task[type] = self.textContent;
+						if (description) self.innerHTML = parseLink(description);
 					}, id);
 				}
 			}
@@ -376,4 +392,46 @@ function taskListeners(header, main, id) {
 
 	infoListener(taskTitle, id);
 	infoListener(taskDescription, id);
+
+	taskDrag.addEventListener("mousedown", () => {
+		taskMouse.taskHolding = id;
+		container.classList.add("task-m-holding");
+		console.log(taskMouse);
+	});
+
+	container.addEventListener("mouseenter", () => {
+		if (taskMouse.taskHolding !== null && taskMouse.taskHolding !== id) {
+			taskMouse.taskHovering = id;
+			container.classList.add("task-m-enter");
+			console.log(taskMouse);
+		}
+	});
+
+	container.addEventListener("mouseleave", () => {
+		if (taskMouse.taskHolding !== null) {
+			taskMouse.taskHovering = null;
+			container.classList.remove("task-m-enter");
+			console.log(taskMouse);
+		}
+	});
+
+	container.addEventListener("mouseup", async () => {
+		if (taskMouse.taskHolding && taskMouse.taskHolding !== id) {
+			const elHolding = document.querySelector(`.usertasks div[data-id='${taskMouse.taskHolding}']`);
+			elHolding.classList.remove("task-m-holding");
+			container.classList.remove("task-m-enter");
+
+			const { tasks } = await local.get("tasks");
+			const holdingIndex = tasks.findIndex((task) => task.id === taskMouse.taskHolding);
+			const downIndex = tasks.findIndex((task) => task.id === id);
+			if (tasks[downIndex].done) return;
+			[tasks[holdingIndex], tasks[downIndex]] = [tasks[downIndex], tasks[holdingIndex]];
+
+			await local.set({ tasks });
+		} else {
+			document.querySelectorAll(".task-m-holding").forEach((task) => task.classList.remove("task-m-holding"));
+		}
+		console.log(taskMouse);
+		taskMouse.taskHolding = null;
+	});
 }

@@ -13,7 +13,8 @@ export function insertPopupCSS() {
 
 	style.innerHTML = `
 body {
-	width: 500px;
+	height: 500px;
+	width: 500px;	
 }
 .links {
 	justify-content: space-around;
@@ -26,20 +27,12 @@ body {
 	}
 }
 
-main {
-	display: block;	
-	height: 500px;
-	overflow-y: auto;
-	overflow-x: hidden;
-	padding: 2rem 0;
-}
 #settings{
 	display: none;
 }
 .usertask-container {
-	display: flex;
-	justify-content: center;
-	overflow-x: hidden;
+	height: 500px;
+	overflow-y: auto;
 	padding: 1rem;
 	margin: 0;
 }
@@ -55,6 +48,14 @@ main {
 				font-size: 0.8rem;
 			}
 			span {
+				font-size: 0.8rem;
+			}
+			a {
+				font-size: 0.8rem;
+			}
+		}
+		.tick-ago{			
+			.time-after{
 				font-size: 0.8rem;
 			}
 		}

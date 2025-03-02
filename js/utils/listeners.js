@@ -3,6 +3,7 @@ import { updateDayStat, updateStat } from "../stat/stat.js";
 import { getMaxNumber } from "./utils.js";
 import { dateFormat } from "./date.js";
 import { date, local, browser, viewDate, minYear } from "../index.js";
+import { taskMouse } from "../index.js";
 
 export async function initListeners() {
 	// Add task: Create a new task
@@ -175,9 +176,28 @@ async function toggleStat() {
 
 async function toggleDaystat() {
 	const { settings } = await local.get("settings");
+
 	if (settings && settings.visibility) {
 		document.querySelector(".daystat-container").classList.toggle("hidden");
 		settings.visibility.list = !settings.visibility.list;
 		await local.set({ settings });
 	}
 }
+
+document.documentElement.addEventListener("mouseup", () => {
+	if (taskMouse.taskHolding === null) return;
+	if (taskMouse.taskHovering === null) taskMouse.taskHolding = null;
+
+	document.querySelectorAll(".usertask").forEach((task) => {
+		task.classList.remove("task-m-enter", "task-m-holding");
+	});
+});
+
+document.documentElement.addEventListener("mouseleave", () => {
+	if (taskMouse.taskHolding === null) return;
+	if (taskMouse.taskHovering === null) taskMouse.taskHolding = null;
+
+	document.querySelectorAll(".usertask").forEach((task) => {
+		task.classList.remove("task-m-enter", "task-m-holding");
+	});
+});
